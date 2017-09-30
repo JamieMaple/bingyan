@@ -54,7 +54,6 @@ const Index = () => (
          src={bgImg}
          style={{
            position: 'relative',
-           left: '-360px',
            height: '100%',
          }}/>
       </div>
