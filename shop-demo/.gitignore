@@ -15,6 +15,8 @@
 .env.development.local
 .env.test.local
 .env.production.local
+# ui imgs
+/ui
 
 npm-debug.log*
 yarn-debug.log*
