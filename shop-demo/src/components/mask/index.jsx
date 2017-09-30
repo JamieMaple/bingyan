@@ -9,7 +9,6 @@ const style = {
 }
 
 const Mask = (({ ..._style }) => {
-  console.log(_style)
   return (
     <div
      className="mask"
