@@ -2,6 +2,7 @@ import React from 'react'
 
 import Header from '../../components/header'
 import Logo from '../../components/logo'
+import Button from '../../components/button/'
 
 const style = {}
 style.body = {
@@ -9,6 +10,20 @@ style.body = {
 }
 style.logoWrapper = {
   padding: '80px 0 66px 0'
+}
+style.inputGroup = {
+  width: '325px',
+  margin: 'auto'
+}
+style.input = {
+  display: 'block',
+  boxSizing: 'border-box',
+  width: '100%',
+  marginBottom: '10px',
+  padding: '12px 16px',
+  border: '1px solid #0D9F67',
+  borderRadius: '3px',
+  color: '#0D9F67'
 }
 
 const SignIn = (() => (
@@ -19,6 +34,12 @@ const SignIn = (() => (
       <div className="logo-wrapper"
         style={style.logoWrapper}>
         <Logo color={"gray"} />
+      </div>
+      <div className="input-group"
+        style={style.inputGroup}>
+        <input type="text" style={style.input} placeholder={"用户名"} />
+        <input type="password" style={style.input} placeholder={"密码"} />
+        <Button text={"登录"} padding={"14px 0"} />
       </div>
     </div>
   </div>
