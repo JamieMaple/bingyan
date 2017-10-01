@@ -1,8 +1,8 @@
 import React, { Component } from 'react'
 
-import Mask from '../mask'
-import Logo from '../logo'
-import Button from '../button'
+import Mask from '../Mask'
+import Logo from '../Logo'
+import Button from '../Button'
 import Navigator from './nav'
 
 import style from './style'

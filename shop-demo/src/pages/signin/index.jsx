@@ -1,8 +1,8 @@
 import React from 'react'
 
-import Header from '../../components/header'
-import Logo from '../../components/logo'
-import Button from '../../components/button/'
+import Header from '../../components/Header'
+import Logo from '../../components/Logo'
+import Button from '../../components/Button/'
 
 const style = {}
 style.body = {
@@ -28,7 +28,11 @@ style.input = {
 
 const SignIn = (() => (
   <div className="sign-in-wrapper">
-    <Header text={"登录"} icon={"cross"} />
+    <Header
+      text={"登录"}
+      icon={"cross"}
+      handleClick={() => {}}
+    />
     <div className="body"
       style={style.body}>
       <div className="logo-wrapper"

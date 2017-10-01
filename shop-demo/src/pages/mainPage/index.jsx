@@ -1,7 +1,7 @@
 import React from 'react'
 import { Switch, Route } from 'react-router-dom'
 
-import SideBarControl from '../../components/sidebar'
+import SideBarControl from '../../components/Sidebar'
 
 import Search from '../search'
 import Categories from '../categories'

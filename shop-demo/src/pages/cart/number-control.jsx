@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 
-import Icon from '../../components/icon'
+import Icon from '../../components/Icon'
 
 const style = {}
 style.wrapper = {

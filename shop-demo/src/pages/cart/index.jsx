@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 
-import Header from '../../components/header'
+import Header from '../../components/Header'
 import CartGood from './cart-good'
 import Shop from './shop'
 
@@ -77,9 +77,8 @@ class Cart extends Component {
         price={item.price} />
     ))
     return (
-      <div className="cart-wrapper"
-        style={style.header}>
-        <Header text="购物车" />
+      <div className="cart-wrapper">
+        <Header text={"购物车"} boxShadow={"0px 1px 5px #919191"} />
         <div className="cart-body"
           style={style.body}>
           {items}

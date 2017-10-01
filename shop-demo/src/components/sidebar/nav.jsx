@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { NavLink } from 'react-router-dom'
 
-import Icon from '../../components/icon'
+import Icon from '../../components/Icon'
 
 import style from './style'
 
