@@ -56,20 +56,20 @@ class Categories extends Component {
   render() {
     const categories = this.state.items.map(((item, index) => (
       <Category
-        key={"category-"+index.toString()}
+        key={`category-${index.toString()}`}
         title={item.title}
         desc={item.desc}
         style={{borderBottom: 'none'}} />
     )))
     return (
-    <div className="categories-wrapper">
-      <Header text={"分类"} boxShadow={"0px 1px 5px #919191"} />
-      <div className="body-wrapper"
-        style={style.body}>
-        {categories}
+      <div className="categories-wrapper">
+        <Header text={'分类'} boxShadow={'0px 1px 5px #919191'} />
+        <div className="body-wrapper"
+          style={style.body}>
+          {categories}
+        </div>
       </div>
-    </div>
-  )
+    )
   }
 }
 export default Categories

@@ -8,12 +8,12 @@ const style = {
   zIndex: '-10'
 }
 
-const Mask = (({ ..._style }) => {
+const Mask = ({ ..._style }) => {
   return (
     <div
-     className="mask"
-     style={Object.assign({}, style, _style)}></div>
+      className="mask"
+      style={Object.assign({}, style, _style)}></div>
   )
-})
+}
 
 export default Mask

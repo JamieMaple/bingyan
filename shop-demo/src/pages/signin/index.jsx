@@ -29,21 +29,21 @@ style.input = {
 const SignIn = (() => (
   <div className="sign-in-wrapper">
     <Header
-      text={"登录"}
-      icon={"cross"}
+      text={'登录'}
+      icon={'cross'}
       handleClick={() => {}}
     />
     <div className="body"
       style={style.body}>
       <div className="logo-wrapper"
         style={style.logoWrapper}>
-        <Logo color={"gray"} />
+        <Logo color={'gray'} />
       </div>
       <div className="input-group"
         style={style.inputGroup}>
-        <input type="text" style={style.input} placeholder={"用户名"} />
-        <input type="password" style={style.input} placeholder={"密码"} />
-        <Button text={"登录"} padding={"14px 0"} />
+        <input type="text" style={style.input} placeholder={'用户名'} />
+        <input type="password" style={style.input} placeholder={'密码'} />
+        <Button text={'登录'} padding={'14px 0'} />
       </div>
     </div>
   </div>

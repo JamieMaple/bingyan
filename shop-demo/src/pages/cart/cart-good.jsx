@@ -54,7 +54,7 @@ class CartGood extends Component {
           style={style.imgWrapper}>
           <img src={src}
             alt="food" width="84" height="88"
-             />
+          />
         </div>
         <div className="info"
           style={style.info}>

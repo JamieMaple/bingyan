@@ -18,11 +18,11 @@ const style = {
   padding: '0 5px'
 }
 
-const Icon = (({type, handleClick, ..._style}) => (
+const Icon = ({type, handleClick, ..._style}) => (
   <i className={iconGrop[type]}
     onClick={handleClick}
     style={Object.assign({}, style, _style)}></i>
-))
+)
 Icon.defaultProps = {
   type: 'nav'
 }

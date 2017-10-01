@@ -58,7 +58,7 @@ class FavoriteGood extends Component {
           style={style.imgWrapper}>
           <img src={src}
             alt="food" width="84" height="88"
-             />
+          />
         </div>
         <div className="info"
           style={style.info}>
@@ -70,7 +70,7 @@ class FavoriteGood extends Component {
             style={style.price}>￥{price}</h3>
           <div className="icon-control"
             style={style.iconControl}>
-            <Icon type={"fullheart"} color="#EA4F4F" />
+            <Icon type={'fullheart'} color="#EA4F4F" />
           </div>
         </div>
       </div>
