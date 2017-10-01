@@ -6,7 +6,7 @@
 
 ### EventEmiiter
 
-
+> https://scriptoj.com/topic/48/36-%E5%AE%9E%E7%8E%B0%E4%B8%80%E4%B8%AA-eventemitter
 
 ### (“大声宣告要修改状态”) dispatch 事件而不应该直接修改state状态
 
