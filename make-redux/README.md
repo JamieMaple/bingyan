@@ -4,9 +4,17 @@
 
 > http://huziketang.com/books/react/lesson30
 
+######先挖个坑给自己。。。《JavaScript设计模式》...JavaScript Design Patterns...
+
+---
+
 ### EventEmiiter
 
 > https://scriptoj.com/topic/48/36-%E5%AE%9E%E7%8E%B0%E4%B8%80%E4%B8%AA-eventemitter
+
+尝试对类 EventEmitter 进行编码，文件在 ./src/eventEmitter 中
+
+---
 
 ### (“大声宣告要修改状态”) dispatch 事件而不应该直接修改state状态
 
@@ -52,3 +60,24 @@ listeners 是所有监听的函数组成的数组，每次调用 dispatch 都会
 
 **大胆妄想**自我想法：redux相当于全局一个集中的状态变量管理器，能够集中处理各个组件之间的通信与状态共享。。但他的代价可能就是这种地方。。。毕竟计算机科学很多时候没有完美解决思路而选取一种折中的办法
 
+---
+
+### 函数式编程的重要理解性概念 -- “老老实实的函数” -- 纯函数（ pure function ）
+
+**1. 函数的返回结果只依赖于它的参数。**
+**2. 函数执行过程里面没有副作用。**
+
+这样才能让函数值**可预料的**
+
+### 原始 'redux' 性能优化
+
+通过对 oldState, newState 的不同属性进行浅拷贝然后进行比对覆盖，自此只变更动了的地方，返回整个新 state
+
+1. Object.assign({}, old, new)
+2. {...old, new}
+
+这样就给我的感觉很接近 Redux 中的 reducer 的环节的作用了
+
+**stateChanger => reducer**
+
+**reducer 就是一个纯函数**
