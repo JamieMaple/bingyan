@@ -24,9 +24,9 @@ class Shop extends Component {
         style={style.wrapper}>
         <div className="monney"
           style={style.left}>
-          <Icon type={"cart"} paddingRight={"5px"} />
+          <Icon type={'cart'} paddingRight={'5px'} />
           总金额：￥100.00</div>
-        <Button text={"结算"} width={"150px"} borderRadius={"0"} />
+        <Button text={'结算'} width={'150px'} borderRadius={'0'} />
       </div>
     )
   }

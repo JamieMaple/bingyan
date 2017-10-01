@@ -21,13 +21,13 @@ style.leftSide = {
   color: 'transparent'
 }
 
-const LeftSide = (({type, handleLeftClick}) => (
+const LeftSide = ({type, handleLeftClick}) => (
   <span className="left-sidebar"
     onClick={handleLeftClick}
     style={style.leftSide}>
     <i className={icons[type]}></i>
   </span>
-))
+)
 class SideBarControl extends Component {
   constructor(props) {
     super(props)

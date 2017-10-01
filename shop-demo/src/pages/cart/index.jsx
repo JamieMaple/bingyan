@@ -78,7 +78,7 @@ class Cart extends Component {
     ))
     return (
       <div className="cart-wrapper">
-        <Header text={"购物车"} boxShadow={"0px 1px 5px #919191"} />
+        <Header text={'购物车'} boxShadow={'0px 1px 5px #919191'} />
         <div className="cart-body"
           style={style.body}>
           {items}

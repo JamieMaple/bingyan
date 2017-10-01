@@ -27,7 +27,7 @@ style.icon = {
   fontWeight: '200'
 }
 
-const Header = (({text, icon, handleClick, ..._style}) => {
+const Header = ({text, icon, handleClick, ..._style}) => {
   let title = null
   if(text) {
     title = <h1 className="title" style={style.title}>{text}</h1>
@@ -41,7 +41,7 @@ const Header = (({text, icon, handleClick, ..._style}) => {
       </span>
     </div>
   )
-})
+}
 Header.defaultProps = {
   text: '',
   icon: 'nav'
