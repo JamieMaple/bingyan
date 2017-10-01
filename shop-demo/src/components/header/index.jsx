@@ -1,8 +1,8 @@
 import React from 'react'
 
-import Icon from '../icon'
-const _style = {}
-_style.header = {
+import Icon from '../Icon'
+const style = {}
+style.header = {
   position: 'fixed',
   top: '0',
   left: '0',
@@ -14,11 +14,11 @@ _style.header = {
   fontSize: '20px',
   lineHeight: '40px'
 }
-_style.title = {
+style.title = {
   textAlign: 'center',
   fontWeight: '200'
 }
-_style.icon = {
+style.icon = {
   display: 'inline-block',
   position: 'absolute',
   bottom: '0',
@@ -27,17 +27,17 @@ _style.icon = {
   fontWeight: '200'
 }
 
-const Header = (({text, icon}) => {
+const Header = (({text, icon, handleClick, ..._style}) => {
   let title = null
   if(text) {
-    title = <h1 className="title" style={_style.title}>{text}</h1>
+    title = <h1 className="title" style={style.title}>{text}</h1>
   }
   return (
     <div className="header"
-      style={_style.header}>
+      style={Object.assign({}, style.header, _style)}>
       {title}
-      <span style={_style.icon}>
-        <Icon type={icon} />
+      <span style={style.icon}>
+        <Icon type={icon} handleClick={handleClick} />
       </span>
     </div>
   )

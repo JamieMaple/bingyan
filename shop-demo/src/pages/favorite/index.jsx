@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
-import Header from '../../components/header'
+import Header from '../../components/Header'
 import FavoriteGood from './favorite-good'
 
 const style = {}
@@ -103,7 +103,7 @@ class Favorite extends Component {
     ))
     return (
       <div  className="favorite-wrapper">
-        <Header text="收藏夹" />
+        <Header text={"收藏夹"} boxShadow={"0px 1px 5px #919191"} />
         <div className="favorite-body"
           style={style.body}>
           {items}

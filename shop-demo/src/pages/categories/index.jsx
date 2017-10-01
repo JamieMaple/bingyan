@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 
-import Header from  '../../components/header'
+import Header from  '../../components/Header'
 import Category from './category'
 
 const style = {}
@@ -63,7 +63,7 @@ class Categories extends Component {
     )))
     return (
     <div className="categories-wrapper">
-      <Header text={"分类"} />
+      <Header text={"分类"} boxShadow={"0px 1px 5px #919191"} />
       <div className="body-wrapper"
         style={style.body}>
         {categories}

@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 
-import Button from '../../components/button'
-import Icon from '../../components/icon'
+import Button from '../../components/Button'
+import Icon from '../../components/Icon'
 
 const style = {}
 style.wrapper = {

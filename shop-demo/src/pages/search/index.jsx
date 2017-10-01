@@ -1,9 +1,9 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
 
-import Mask from '../../components/mask'
-import BackgroundImg from '../../components/background_img'
-import Icon from '../../components/icon'
+import Mask from '../../components/Mask'
+import BackgroundImg from '../../components/BackgroundImg'
+import Icon from '../../components/Icon'
 
 import style from './style'
 

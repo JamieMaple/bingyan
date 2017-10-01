@@ -1,7 +1,7 @@
 import React from 'react'
 
-import Mask from '../../components/mask'
-import BackgroundImg from '../../components/background_img'
+import Mask from '../../components/Mask'
+import BackgroundImg from '../../components/BackgroundImg'
 
 const style = {}
 const defaultImg = require('./default.png')

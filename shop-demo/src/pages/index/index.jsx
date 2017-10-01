@@ -1,10 +1,10 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
 
-import BackgroundImg from '../../components/background_img'
-import Mask from '../../components/mask'
-import Button from '../../components/button'
-import Logo from '../../components/logo'
+import BackgroundImg from '../../components/BackgroundImg'
+import Mask from '../../components/Mask'
+import Button from '../../components/Button'
+import Logo from '../../components/Logo'
 
 const style = {}
 style.backgroundItem = {
