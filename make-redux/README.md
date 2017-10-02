@@ -1,5 +1,7 @@
 # Redux 原理探索
 
+*尝试造轮子 -- react-redux*
+
 **受之前麦冬学长面试所问的问题所启发而追寻原理，顺便深入理解redux**
 
 > http://huziketang.com/books/react/lesson30
@@ -12,7 +14,7 @@
 
 > https://scriptoj.com/topic/48/36-%E5%AE%9E%E7%8E%B0%E4%B8%80%E4%B8%AA-eventemitter
 
-尝试对类 EventEmitter 进行编码，文件在 ./src/emitter/eventEmitter 中
+尝试对类 EventEmitter 进行编码，文件在 ./src/emitter 中
 
 ---
 
@@ -97,6 +99,8 @@ listeners 是所有监听的函数组成的数组，每次调用 dispatch 都会
 context 相关：
 > https://reactjs.org/docs/context.html
 
+文件在 './src/contextAndStore/'
+
 缺陷:
 
 1. 大量重复逻辑
@@ -151,4 +155,30 @@ export const connect = (mapStateToProps) => (WrappedComponent) => {
 }
 ```
 
+改进版本的mapStateToProps接收俩参数不是很理解。。。
+
 ---
+
+### mapDispatchToProps
+
+dispatch 应该也能够通过 connect 进行，进而形成更多 dump components
+
+做法：给 connect 组件传入另一个参数告诉组件需要何时触发 dispatch
+
+``` javascript
+const mapDispatchToProps = (dispatch) => {
+  return {
+    onSwitchColor: (color) => {
+      dispatch({ type: 'CHANGE_COLOR', themeColor: color })
+    }
+  }
+}
+```
+
+---
+
+### Provider
+
+需求：清除业务逻辑中公共父组件中的context，使得他看似不存在。。目前的话污染了 Index 组件。。所以得提供一个专门管理 context 的根组件
+
+方法：添加一个根组件，取名叫做 Provider -- 容器组件
