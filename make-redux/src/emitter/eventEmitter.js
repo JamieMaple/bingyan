@@ -2,7 +2,7 @@ class EventEmitter {
   constructor() {
     this.events = {} // holding in each type of functions
     /* exp
-    //  {
+        {
           hi: [func1, func2],
           bye: [func1, func2]
         }
