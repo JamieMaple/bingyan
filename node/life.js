@@ -13,10 +13,10 @@ function addItems(url, resolve) {
     const $ = cheerio.load(sres.text)
     $('.gl-item .gl-i-wrap').each(function(index, element) {
       let name = $(this).find('.p-name em').text().trim()
-          description = $(this).find('.p-name .promo-words').text().trim() || '图书',
+          description = $(this).find('.p-name .promo-words').text().trim() || '生活用品',
           img = $(this).find('img').attr('src') || $(this).find('img').attr('data-lazy-img'),
           price = Number($(this).find('.p-price i').text()) || (20+Math.random()*10).toFixed(1),
-          category = 1
+          category = 3
       img = 'http://'+img.substr(2)
       items.push({name, description, img, price, category})
     })
@@ -25,11 +25,13 @@ function addItems(url, resolve) {
 }
 
 const urls = [
-  'https://search.jd.com/Search?keyword=%E7%94%9F%E6%B4%BB&enc=utf-8',
-  'https://list.jd.com/list.html?cat=1713,3272',
-  'https://search.jd.com/Search?keyword=%E7%94%9F%E6%B4%BB&enc=utf-8&qrst=1&rt=1&stop=1&vt=2&page=3&s=55&click=0',
-  'https://list.jd.com/list.html?cat=1713,3272&page=2&sort=sort_rank_asc&trans=1&JL=6_0_0#J_main',
-  'https://list.jd.com/list.html?cat=1713,3260'
+  'https://search.jd.com/search?keyword=%E7%94%9F%E6%B4%BB%E7%94%A8%E5%93%81&enc=utf-8&qrst=1&rt=1&stop=1&vt=2&wq=%E7%94%9F%E6%B4%BByong%27p&cid3=1671#J_searchWrap',
+  'https://search.jd.com/search?keyword=%E7%94%9F%E6%B4%BB%E7%94%A8%E5%93%81&enc=utf-8&qrst=1&rt=1&stop=1&vt=2&wq=%E7%94%9F%E6%B4%BByong%27p&cid3=1660#J_searchWrap',
+  'https://search.jd.com/search?keyword=%E7%94%9F%E6%B4%BB%E7%94%A8%E5%93%81&enc=utf-8&qrst=1&rt=1&stop=1&vt=2&wq=%E7%94%9F%E6%B4%BByong%27p&cid3=1661#J_searchWrap',
+  'https://search.jd.com/search?keyword=%E7%94%9F%E6%B4%BB%E7%94%A8%E5%93%81&enc=utf-8&qrst=1&rt=1&stop=1&vt=2&wq=%E7%94%9F%E6%B4%BByong%27p&cid3=1658#J_searchWrap',
+  'https://search.jd.com/search?keyword=%E7%94%9F%E6%B4%BB%E7%94%A8%E5%93%81&enc=utf-8&qrst=1&rt=1&stop=1&vt=2&wq=%E7%94%9F%E6%B4%BByong%27p&cid3=1656#J_searchWrap',
+  'https://search.jd.com/search?keyword=%E7%94%9F%E6%B4%BB%E7%94%A8%E5%93%81&enc=utf-8&qrst=1&rt=1&stop=1&vt=2&wq=%E7%94%9F%E6%B4%BByong%27p&cid3=1669#J_searchWrap',
+  'https://search.jd.com/search?keyword=%E7%94%9F%E6%B4%BB%E7%94%A8%E5%93%81&enc=utf-8&qrst=1&rt=1&stop=1&vt=2&wq=%E7%94%9F%E6%B4%BByong%27p&cid3=1670#J_searchWrap'
 ]
 
 const res = urls.map((url) => 

@@ -13,10 +13,10 @@ function addItems(url, resolve) {
     const $ = cheerio.load(sres.text)
     $('.gl-item .gl-i-wrap').each(function(index, element) {
       let name = $(this).find('.p-name em').text().trim()
-          description = $(this).find('.p-name .promo-words').text().trim() || '图书',
+          description = name,
           img = $(this).find('img').attr('src') || $(this).find('img').attr('data-lazy-img'),
           price = Number($(this).find('.p-price i').text()) || (20+Math.random()*10).toFixed(1),
-          category = 1
+          category = 5
       img = 'http://'+img.substr(2)
       items.push({name, description, img, price, category})
     })
@@ -25,11 +25,12 @@ function addItems(url, resolve) {
 }
 
 const urls = [
-  'https://search.jd.com/Search?keyword=%E7%94%9F%E6%B4%BB&enc=utf-8',
-  'https://list.jd.com/list.html?cat=1713,3272',
-  'https://search.jd.com/Search?keyword=%E7%94%9F%E6%B4%BB&enc=utf-8&qrst=1&rt=1&stop=1&vt=2&page=3&s=55&click=0',
-  'https://list.jd.com/list.html?cat=1713,3272&page=2&sort=sort_rank_asc&trans=1&JL=6_0_0#J_main',
-  'https://list.jd.com/list.html?cat=1713,3260'
+ 'https://list.jd.com/list.html?cat=12218,12221',
+ 'https://list.jd.com/list.html?cat=12218,12221&page=2',
+ 'https://list.jd.com/list.html?cat=12218,12221&page=3',
+ 'https://list.jd.com/list.html?cat=12218,12221&page=4',
+ 'https://list.jd.com/list.html?cat=12218,12221&page=5',
+ 'https://list.jd.com/list.html?cat=12218,12221&page=6',
 ]
 
 const res = urls.map((url) => 

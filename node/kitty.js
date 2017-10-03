@@ -13,10 +13,10 @@ function addItems(url, resolve) {
     const $ = cheerio.load(sres.text)
     $('.gl-item .gl-i-wrap').each(function(index, element) {
       let name = $(this).find('.p-name em').text().trim()
-          description = $(this).find('.p-name .promo-words').text().trim() || '图书',
+          description = $(this).find('.p-name .promo-words').text().trim() || '饮料',
           img = $(this).find('img').attr('src') || $(this).find('img').attr('data-lazy-img'),
           price = Number($(this).find('.p-price i').text()) || (20+Math.random()*10).toFixed(1),
-          category = 1
+          category = 7
       img = 'http://'+img.substr(2)
       items.push({name, description, img, price, category})
     })
@@ -25,11 +25,14 @@ function addItems(url, resolve) {
 }
 
 const urls = [
-  'https://search.jd.com/Search?keyword=%E7%94%9F%E6%B4%BB&enc=utf-8',
-  'https://list.jd.com/list.html?cat=1713,3272',
-  'https://search.jd.com/Search?keyword=%E7%94%9F%E6%B4%BB&enc=utf-8&qrst=1&rt=1&stop=1&vt=2&page=3&s=55&click=0',
-  'https://list.jd.com/list.html?cat=1713,3272&page=2&sort=sort_rank_asc&trans=1&JL=6_0_0#J_main',
-  'https://list.jd.com/list.html?cat=1713,3260'
+  'https://search.jd.com/Search?keyword=%E7%8B%97%E7%B2%AE&enc=utf-8&spm=2.1.1',
+  'https://search.jd.com/Search?keyword=%E7%8B%97%E7%AA%9D&enc=utf-8&wq=gou%27wo&pvid=f8cf209402aa48048b24264ac51a5c9a',
+  'https://search.jd.com/Search?keyword=%E7%8C%AB%E7%AA%9D&enc=utf-8&wq=mao%27wo&pvid=835cf19a581f4cdfa853d81e2c01ed83',
+  'https://search.jd.com/Search?keyword=%E7%8B%97%E7%BD%90%E5%A4%B4&enc=utf-8&spm=2.1.3',
+  'https://search.jd.com/Search?keyword=%E7%8C%AB%E7%BD%90%E5%A4%B4&enc=utf-8&spm=2.1.4',
+  'https://search.jd.com/Search?keyword=%E7%8C%AB%E7%B2%AE%20%E5%B9%BC%E7%8C%AB&enc=utf-8&spm=2.1.6',
+  'https://search.jd.com/Search?keyword=%E5%A6%99%E9%B2%9C%E5%8C%85%E7%8C%AB&enc=utf-8&spm=2.1.5',
+  'https://search.jd.com/Search?keyword=%E5%A6%99%E9%B2%9C%E5%8C%85%E7%8B%97&enc=utf-8&spm=2.1.8',
 ]
 
 const res = urls.map((url) => 

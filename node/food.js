@@ -14,13 +14,14 @@ function addItems(num, resolve) {
     let $ = cheerio.load(sres.text)
     const items = []
     $('.products li').each(function(index, element) {
-      let name = $(this).find('.name a').text().substr(7)
-      let discribe = ""
-      let price = Number($(this).find('.num').text()+$(this).find('.tail').text())
-      let img = $(this).find('.img img').attr('data-original')
-      let category = 0
+      let name = $(this).find('.name a').text(),
+          description = '小零食',
+          price = Number($(this).find('.num').text()+$(this).find('.tail').text()),
+          img = $(this).find('.img img').attr('data-original'),
+          category = 0
+      name = name.substr(name.indexOf('味')+1).trim()
       items.push({
-        name, price, discribe, img, category
+        name, price, description, img, category
       })
     })
     resolve(items)
@@ -35,6 +36,7 @@ res = [0, 0, 0].map((item, index) =>
 
 Promise.all(res).then((itemsArr) => {
   const items = [...itemsArr[0], ...itemsArr[1], ...itemsArr[2]]
+  
   console.log(items.length)
   return
   mongoose.connect('mongodb://localhost/Shop')
@@ -44,20 +46,21 @@ Promise.all(res).then((itemsArr) => {
     console.log('error')
   })
   db.once('open', function() {
-    const Schema = mongoose.Schema
-    const GoodSchema = new Schema({
+    var Good = mongoose.model('goods', {
       name: String,
       description: String,
-      price: Number,
       img: String,
-      category: Number
+      category: Number,
+      price: Number
     })
-    const GoodModel = mongoose.model('Good', GoodSchema)
-    GoodModel.create(items, function(err, goods) {
-      if (err) {
-        console.log(err)
-      }
-      console.log('successful!')
+    items.forEach((item, index) => {
+      var good = new Good(item)
+      good.save(function(err, good) {
+        if (err) {
+          console.log(errr)
+        }
+      })
     })
+    console.log(items.length, ' successful!')
   })
 })
