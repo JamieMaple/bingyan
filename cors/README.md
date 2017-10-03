@@ -18,7 +18,7 @@
    - 对浏览器发送请求的 mode 模式设置成 cors 依然出现错误，说明不能只靠浏览器的单向设置请求头，需要更进一步的服务器端设置 cors 请求
 
    - 设置服务器端（3001）的响应头为以下代码，请求成功
-
+   
   ```javascript
     res.header("Access-Control-Allow-Origin", "*")
     res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept")
