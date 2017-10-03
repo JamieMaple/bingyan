@@ -55,7 +55,7 @@ var removeDocument = function(db, callback) {
 
 var indexCollection = function(db, callback) {
   db.collection('documents').createIndex(
-    {a: 1},
+    {a: 3},
     null,
     function(err, results) {
       console.log(results)
@@ -68,18 +68,18 @@ MongoClient.connect(url, function(err, db) {
   assert.equal(null, err)
   console.log('Connected successfully to server.')
 
-  // insertDocuments(db, function() {
-    findDocuments(db, function() {
-      db.close()
-    })
-    updateDocument(db, function() {
-      db.close()
-    })
-    removeDocument(db, function() {
-      db.close()
-    })
+  insertDocuments(db, function() {
+    // findDocuments(db, function() {
+    //   db.close()
+    // })
+    // updateDocument(db, function() {
+    //   db.close()
+    // })
+    // removeDocument(db, function() {
+    //   db.close()
+    // })
     indexCollection(db, function() {
       db.close()
     })
-  // })
+  })
 })
