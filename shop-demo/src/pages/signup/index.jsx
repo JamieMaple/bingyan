@@ -81,7 +81,7 @@ class SignUp extends Component {
           <div className="form-wrapper"
             style={style.formWrapper}>
             {items}
-            <Button text={'注册'} padding={'14px 0'} marginTop={'15px'} />
+            <Button text={'注册'} padding={'14px 0'} marginTop={'25px'} />
           </div>
         </div>
       </div>
