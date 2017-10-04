@@ -1,4 +1,5 @@
 import React from 'react'
+import { Link } from 'react-router-dom'
 
 import Mask from '../../components/Mask'
 import BackgroundImg from '../../components/BackgroundImg'
@@ -41,23 +42,31 @@ style.title2 = Object.assign({}, style.title1, {
   fontWeight: '100'
 })
 
-const Category = (({title, desc, src}) => (
+const Category = ({match, title, desc, src}) => (
   <div className="category-wrapper"
     style={style.wrapper}>
     <div className="background-group"
       style={style.commonWrapper}>
-      <Mask opacity={".5"} />
+      <Mask opacity={'.5'} />
       <div className="img-wrapper"
         style={style.img}>
         <BackgroundImg src={src} style={{ width: '100%', left: '0', top: '-50%', transform: 'translate3d(50%)' }} />
       </div>
+      <Link to={`${match.url}/${match.params.id}`} style={{
+        display: 'block',
+        position: 'absolute',
+        left: '0',
+        right: '0',
+        top: '0',
+        bottom: '0'
+      }} />
     </div>
     <div className="title-group">
       <h1 style={style.title1}>{title}</h1>
       <h2 style={style.title2}>{desc}</h2>
     </div>
   </div>
-))
+)
 Category.defaultProps = {
   title: '分类',
   desc: '暂无介绍',

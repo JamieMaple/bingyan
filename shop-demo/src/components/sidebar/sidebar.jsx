@@ -30,12 +30,12 @@ class SideBar extends Component {
   render() {
     let show = {}, mask = null
     let buttons = this.state.buttons.map((button, index) => (
-        <Button key={`button-${index}`}
-          text={button.text}
-          flex={1}
-          background={'green'}
-          path={button.path}
-          borderRadius={0} />
+      <Button key={`button-${index}`}
+        text={button.text}
+        flex={1}
+        background={'green'}
+        path={button.path}
+        borderRadius={0} />
     ))
     if (this.props.showSidebar) {
       show = {transform: 'translate3d(0,0,0)', boxShadow: '0px -2px 10px rgb(7, 17, 27)', opacity: '1'}
@@ -56,7 +56,7 @@ class SideBar extends Component {
           style={Object.assign({}, style.sidebarWrapper, show)}>
           <div className="logo-wrapper"
             style={style.logoWrapper}>
-            <Logo color={"#C7C7C7"} size={"medium"} />
+            <Logo color={'#C7C7C7'} size={'medium'} />
           </div>
           <Navigator toggleShow={this.toggleShow} />
           <div className="user-sign"

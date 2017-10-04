@@ -23,7 +23,8 @@ style.inputsWrapper = {
 style.input = {
   display: 'block',
   width: '100%',
-  fontSize: '16px'
+  fontSize: '16px',
+  fontWeight: 'lighter'
 }
 
 const Input = (({type, placeholder}) => (
@@ -70,17 +71,17 @@ class SignUp extends Component {
 
     return (
       <div className="sign-up-wrapper">
-        <Header text={"注册"} icon={"arrow"} />
+        <Header text={'注册'} icon={'arrow'} />
         <div className="body"
           style={style.body}>
           <div className="logo-wrapper"
             style={style.logoWrapper}>
-            <Logo color={"gray"} />
+            <Logo color={'gray'} />
           </div>
           <div className="form-wrapper"
             style={style.formWrapper}>
             {items}
-            <Button text={"注册"} padding={"14px 0"} marginTop={"15px"} />
+            <Button text={'注册'} padding={'14px 0'} marginTop={'25px'} />
           </div>
         </div>
       </div>

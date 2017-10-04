@@ -44,24 +44,24 @@ class Button extends Component {
     let { text, path, ..._style } = this.props
 
     switch (_style.background) {
-      case 'red':
-        _style.background = color.red
-        break
-      case 'blue':
-        _style.background = color.blue
-        break
-      default:
-        _style.background = color.green
-        break
+    case 'red':
+      _style.background = color.red
+      break
+    case 'blue':
+      _style.background = color.blue
+      break
+    default:
+      _style.background = color.green
+      break
     }
     return (
-        <button
-          type="button"
-          style={Object.assign({}, style.button, _style)}
-          onClick={this.handleClick}>
-          <Link to={path} style={style.link} ></Link>
-          {text}
-        </button>
+      <button
+        type="button"
+        style={Object.assign({}, style.button, _style)}
+        onClick={this.handleClick}>
+        <Link to={path} style={style.link} ></Link>
+        {text}
+      </button>
     )
   }
 }

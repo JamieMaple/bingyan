@@ -1,0 +1,29 @@
+<div>
+  <h1>hello world</h1>
+</div>
+<script>
+  // 同源 3000 端口请求成功
+  fetch('http://localhost:3000/api', {
+    method: 'GET',
+    headers: new Headers(),
+    cache: 'default'
+  })
+  .then((res) => res.json())
+  .then((myBlob) => {
+    console.log(myBlob)
+  }).catch((err) => {
+    console.log(err)
+  })
+  // 3001 端口请求
+  fetch('http://localhost:3001/api', {
+    method: 'GET',
+    headers: new Headers(),
+    cache: 'default'
+  })
+  .then((res) => res.json())
+  .then((myBlob) => {
+    console.log(myBlob)
+  }).catch((err) => {
+    console.log(err)
+  })
+</script>

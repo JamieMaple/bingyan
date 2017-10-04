@@ -41,15 +41,15 @@ class Navigator extends Component {
   render() {
     const navItems = this.state.navItems.map((item, index) => (
       <li className="nav-item"
-      key={`item-${index}`}
-      style={style.navItem}>
+        key={`item-${index}`}
+        style={style.navItem}>
         <NavLink
           to={item.path}
           activeClassName="active"
           style={style.itemName}
           onClick={this.toggleShow}
           activeStyle={Object.assign({}, style.itemName, style.itemNameActive)}>
-          <Icon type={item.type} marginRight={"5px"} />{item.name}
+          <Icon type={item.type} marginRight={'5px'} />{item.name}
         </NavLink>
       </li>
     ))

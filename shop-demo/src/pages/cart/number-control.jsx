@@ -37,10 +37,10 @@ class NumberControl extends Component {
     const buttons = this.state.buttons.map((button, index) => (
       <Icon key={`button-${index}`}
         type={button.type}
-        display={"inline-block"}
-        boxSizing={"border-box"}
+        display={'inline-block'}
+        boxSizing={'border-box'}
         color={button.color}
-        padding={"5px"} />
+        padding={'5px'} />
     ))
     return (
       <div className="number-control"

@@ -45,18 +45,18 @@ const Index = () => (
   <div style={{height: '100%'}}>
     <div className="background-group">
       <div className="mask"
-      style={style.backgroundItem}>
-        <Mask opacity={"0.35"} />
+        style={style.backgroundItem}>
+        <Mask opacity={'.35'} />
       </div>
       <div className="backgroundImg"
-      style={Object.assign({}, style.backgroundItem, {zIndex: '-20'})}>
+        style={Object.assign({}, style.backgroundItem, {zIndex: '-20'})}>
         <BackgroundImg
-         src={bgImg}
-         style={{
-           position: 'relative',
-           width: '100%',
-           height: '100%'
-         }}/>
+          src={bgImg}
+          style={{
+            position: 'relative',
+            width: '100%',
+            height: '100%'
+          }}/>
       </div>
     </div>
     <div className="logo-group"
