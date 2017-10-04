@@ -49,13 +49,14 @@ const Index = () => (
         <Mask opacity={'.35'} />
       </div>
       <div className="backgroundImg"
-        style={Object.assign({}, style.backgroundItem, {zIndex: '-20'})}>
+        style={{...style.backgroundItem, zIndex: '-20'}}>
         <BackgroundImg
           src={bgImg}
           style={{
             position: 'relative',
             width: '100%',
-            height: '100%'
+            height: '100%',
+            opacity: '.8'
           }}/>
       </div>
     </div>

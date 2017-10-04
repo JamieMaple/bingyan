@@ -3,6 +3,8 @@ let install = require('superagent-charset')
 let cheerio = require('cheerio')
 let mongoose = require('mongoose')
 
+let { testString } = require('./replaceString')
+
 request = install(request)
 
 // 分类 --- 零食类
@@ -19,7 +21,7 @@ function addItems(num, resolve) {
           price = Number($(this).find('.num').text()+$(this).find('.tail').text()),
           img = $(this).find('.img img').attr('data-original'),
           category = 0
-      name = name.substr(name.indexOf('味')+1).trim()
+      name = testString(name)
       items.push({
         name, price, description, img, category
       })

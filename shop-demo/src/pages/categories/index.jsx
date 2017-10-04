@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import superagent from 'superagent'
 
 import Header from  '../../components/Header'
 import Category from './category'
@@ -13,62 +14,27 @@ class Categories extends Component {
     super(props)
 
     this.state = {
-      items: [
-        {
-          id: '12394',
-          title: '分类1',
-          desc: 'description'
-        },
-        {
-          id: '22394',
-          title: '分类2',
-          desc: 'description'
-        },
-        {
-          id: '12354',
-          title: '分类3',
-          desc: 'description'
-        },
-        {
-          id: '15394',
-          title: '分类4',
-          desc: 'description'
-        },
-        {
-          id: '12364',
-          title: '分类5',
-          desc: 'description'
-        },
-        {
-          id: '12994',
-          title: '分类6',
-          desc: 'description'
-        },
-        {
-          id: '10394',
-          title: '分类7',
-          desc: 'description'
-        },
-        {
-          id: '09394',
-          title: '分类8',
-          desc: 'description'
-        },
-        {
-          id: '12390',
-          title: '分类9',
-          desc: 'description'
-        }
-      ]
+      categories: []
     }
   }
+  componentDidMount() {
+    superagent
+      .get('http://localhost:3001/api/categories')
+      .end((err, sres) => {
+        if (err) {
+          console.log(err)
+        }
+        const resText = JSON.parse(sres.text)
+        this.setState({categories: resText})
+      })
+  }
   render() {
-    const categories = this.state.items.map((item, index) => (
+    const categories = this.state.categories.map((category, index) => (
       <Category
-        key={`category-${index.toString()}`}
-        match={{params: {id: item.id}, url: '/categories'}}
-        title={item.title}
-        desc={item.desc}
+        key={category._id}
+        id={category.id}
+        title={category.name}
+        desc={category.description}
         style={{borderBottom: 'none'}} />
     ))
     return (

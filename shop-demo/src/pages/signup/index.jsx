@@ -12,7 +12,7 @@ style.logoWrapper = {
   padding: '15px 0 20px 0'
 }
 style.formWrapper = {
-  width: '325px',
+  width: '300px',
   margin: 'auto'
 }
 style.inputsWrapper = {
@@ -63,6 +63,7 @@ class SignUp extends Component {
     }
   }
   render() {
+    const { history } = this.props
     const items = this.state.items.map((item, index) => (
       <Input key={`input-${index}`}
         type={item.type}
@@ -71,12 +72,15 @@ class SignUp extends Component {
 
     return (
       <div className="sign-up-wrapper">
-        <Header text={'注册'} icon={'arrow'} />
+        <Header 
+          text={'注册'} 
+          icon={'arrow'} 
+          handleClick={() => {history.goBack()}} />
         <div className="body"
           style={style.body}>
           <div className="logo-wrapper"
             style={style.logoWrapper}>
-            <Logo color={'gray'} />
+            <Logo color={'#C7C7C7'} />
           </div>
           <div className="form-wrapper"
             style={style.formWrapper}>

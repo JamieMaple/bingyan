@@ -5,7 +5,6 @@ import Mask from '../../components/Mask'
 import BackgroundImg from '../../components/BackgroundImg'
 
 const style = {}
-const defaultImg = require('./default.png')
 
 style.wrapper = {
   position: 'relative',
@@ -42,7 +41,7 @@ style.title2 = Object.assign({}, style.title1, {
   fontWeight: '100'
 })
 
-const Category = ({match, title, desc, src}) => (
+const Category = ({id, title, desc, src}) => (
   <div className="category-wrapper"
     style={style.wrapper}>
     <div className="background-group"
@@ -52,13 +51,14 @@ const Category = ({match, title, desc, src}) => (
         style={style.img}>
         <BackgroundImg src={src} style={{ width: '100%', left: '0', top: '-50%', transform: 'translate3d(50%)' }} />
       </div>
-      <Link to={`${match.url}/${match.params.id}`} style={{
+      <Link to={`/category/${id}`} style={{
         display: 'block',
         position: 'absolute',
         left: '0',
         right: '0',
         top: '0',
-        bottom: '0'
+        bottom: '0',
+        zIndex: '10'
       }} />
     </div>
     <div className="title-group">
@@ -70,7 +70,7 @@ const Category = ({match, title, desc, src}) => (
 Category.defaultProps = {
   title: '分类',
   desc: '暂无介绍',
-  src: defaultImg
+  src: ''
 }
 
 export default Category

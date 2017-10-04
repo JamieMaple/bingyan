@@ -12,7 +12,7 @@ style.logoWrapper = {
   padding: '80px 0 66px 0'
 }
 style.inputGroup = {
-  width: '325px',
+  width: '300px',
   margin: 'auto'
 }
 style.input = {
@@ -26,18 +26,18 @@ style.input = {
   color: '#0D9F67'
 }
 
-const SignIn = (() => (
+const SignIn = ({history}) => (
   <div className="sign-in-wrapper">
     <Header
       text={'登录'}
       icon={'cross'}
-      handleClick={() => {}}
+      handleClick={() => {history.goBack()}}
     />
     <div className="body"
       style={style.body}>
       <div className="logo-wrapper"
         style={style.logoWrapper}>
-        <Logo color={'gray'} />
+        <Logo color={'#C7C7C7'} />
       </div>
       <div className="input-group"
         style={style.inputGroup}>
@@ -47,6 +47,6 @@ const SignIn = (() => (
       </div>
     </div>
   </div>
-))
+)
 
 export default SignIn

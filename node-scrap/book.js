@@ -3,6 +3,8 @@ var install = require('superagent-charset')
 var cheerio = require('cheerio')
 var mongoose = require('mongoose')
 
+var { testString } = require('./replaceString')
+
 function addItems(url, resolve) {
   request.get(url)
   .end(function(err, sres) {
@@ -12,12 +14,14 @@ function addItems(url, resolve) {
     const items = []
     const $ = cheerio.load(sres.text)
     $('.gl-item .gl-i-wrap').each(function(index, element) {
-      let name = $(this).find('.p-name em').text().trim()
-          description = $(this).find('.p-name .promo-words').text().trim() || '图书',
+      let name = $(this).find('.p-name em').text()
+          description = $(this).find('.p-name .promo-words').text(),
           img = $(this).find('img').attr('src') || $(this).find('img').attr('data-lazy-img'),
           price = Number($(this).find('.p-price i').text()) || (20+Math.random()*10).toFixed(1),
           category = 1
-      img = 'http://'+img.substr(2)
+      name = testString(name)
+      description = testString(description) || '图书',
+      img = 'http:'+img
       items.push({name, description, img, price, category})
     })
     resolve(items)

@@ -182,3 +182,8 @@ const mapDispatchToProps = (dispatch) => {
 需求：清除业务逻辑中公共父组件中的context，使得他看似不存在。。目前的话污染了 Index 组件。。所以得提供一个专门管理 context 的根组件
 
 方法：添加一个根组件，取名叫做 Provider -- 容器组件
+
+---
+
+### dumb and smart
+> https://medium.com/@dan_abramov/smart-and-dumb-components-7ca2f9a7c7d0
