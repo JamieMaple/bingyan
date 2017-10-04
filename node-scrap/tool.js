@@ -3,6 +3,8 @@ var install = require('superagent-charset')
 var cheerio = require('cheerio')
 var mongoose = require('mongoose')
 
+let { testString } = require('./replaceString')
+
 function addItems(url, resolve) {
   request.get(url)
   .end(function(err, sres) {
@@ -18,6 +20,8 @@ function addItems(url, resolve) {
           price = Number($(this).find('.p-price i').text()) || (20+Math.random()*10).toFixed(1),
           category = 3
       img = 'http://'+img.substr(2)
+      name = testString(name)
+      description = testString(description) || '文具'
       items.push({name, description, img, price, category})
     })
     resolve(items)

@@ -3,6 +3,8 @@ var install = require('superagent-charset')
 var cheerio = require('cheerio')
 var mongoose = require('mongoose')
 
+let { testString } = require('./replaceString')
+
 function addItems(url, resolve) {
   request.get(url)
   .end(function(err, sres) {
@@ -12,11 +14,13 @@ function addItems(url, resolve) {
     const items = []
     const $ = cheerio.load(sres.text)
     $('.gl-item .gl-i-wrap').each(function(index, element) {
-      let name = $(this).find('.p-name em').text().trim()
-          description = $(this).find('.p-name .promo-words').text().trim() || '动漫周边',
+      let name = $(this).find('.p-name em').text(),
+          description = $(this).find('.p-name .promo-words').text(),
           img = $(this).find('img').attr('src') || $(this).find('img').attr('data-lazy-img'),
           price = Number($(this).find('.p-price i').text()) || (20+Math.random()*10).toFixed(1),
           category = 8
+      name = testString(name)
+      description = testString(description) || '动漫周边'
       img = 'http://'+img.substr(2)
       items.push({name, description, img, price, category})
     })
@@ -46,6 +50,8 @@ Promise.all(res).then((itemsArr) => {
   itemsArr.forEach(itemsArrItem => {
     items.push(...itemsArrItem)
   })
+  // console.log(items.length)
+  // return
   mongoose.connect('mongodb://localhost/Shop', {
     useMongoClient: true
   })
