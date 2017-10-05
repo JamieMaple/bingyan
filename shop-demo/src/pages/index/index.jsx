@@ -68,11 +68,21 @@ const Index = () => (
       style={style.buttonGrop}>
       <div className="button-1"
         style={Object.assign({}, style.buttonDiv, {marginBottom: '15px'})}>
-        <Button text="注册" background="green" path="/signup" />
+        <Button
+          path="/signup"
+          text="注册"
+          style={{
+            background:'green'
+          }}/>
       </div>
       <div className="button-2"
         style={style.buttonDiv}>
-        <Button text="待会再说" background="blue" path="/search" />
+        <Button
+          text="待会再说"
+          path="/search" 
+          style={{
+            background: 'blue'
+          }}/>
       </div>
       <div className="footer-sigin">
         <h3 className="footer-title"

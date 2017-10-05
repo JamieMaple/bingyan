@@ -7,8 +7,8 @@ const color = {
   red: '#EA4F4F',
   blue: '#3B5998',
 }
-const style = {}
-style.button = {
+const _style = {}
+_style.button = {
   display: 'block',
   position: 'relative',
   height: '100%',
@@ -22,7 +22,7 @@ style.button = {
   background: color.green,
   color: '#fff'
 }
-style.link = {
+_style.link = {
   display: 'inline-block',
   position: 'absolute',
   top: '0',
@@ -37,29 +37,39 @@ class Button extends Component {
 
     this.handleClick = this.handleClick.bind(this)
   }
+
   handleClick() {
     console.log('click happened')
   }
-  render() {
-    let { text, path, ..._style } = this.props
 
-    switch (_style.background) {
+  render() {
+    let { text, path, style } = this.props
+    let link = null
+
+    if (path !== '') {
+      link = <Link to={path} style={_style.link}></Link>
+    }
+
+    switch (style.background) {
     case 'red':
-      _style.background = color.red
+      style.background = color.red
       break
     case 'blue':
-      _style.background = color.blue
+      style.background = color.blue
+      break
+    case 'green':
+      style.background = color.green
       break
     default:
-      _style.background = color.green
       break
     }
+
     return (
       <button
         type="button"
-        style={Object.assign({}, style.button, _style)}
+        style={{..._style.button, ...style}}
         onClick={this.handleClick}>
-        <Link to={path} style={style.link} ></Link>
+        {link}
         {text}
       </button>
     )
@@ -67,12 +77,14 @@ class Button extends Component {
 }
 Button.propTypes = {
   text: PropTypes.string,
-  background: PropTypes.string
+  style: PropTypes.object
 }
 Button.defaultProps = {
   text: '按钮',
-  background: 'default',
-  path: '#'
+  style: {
+    background: color.green
+  },
+  path: ''
 }
 
 export default Button

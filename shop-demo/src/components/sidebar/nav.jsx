@@ -49,7 +49,9 @@ class Navigator extends Component {
           style={style.itemName}
           onClick={this.toggleShow}
           activeStyle={Object.assign({}, style.itemName, style.itemNameActive)}>
-          <Icon type={item.type} marginRight={'5px'} />{item.name}
+          <Icon 
+            type={item.type}
+            style={{marginRight: '5px'}} />{item.name}
         </NavLink>
       </li>
     ))

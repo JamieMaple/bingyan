@@ -1,4 +1,6 @@
 import React from 'react'
+import { Link } from 'react-router-dom'
+
 import Icon from '../Icon'
 
 const style = {} 
@@ -6,10 +8,10 @@ style.goodWrapper = {
   position: 'relative',
   width: '170px',
   height: '225px',
-  margin: '8px 8px',
+  margin: '5px 5px',
   padding: '14px',
   background: '#fff',
-  boxShadow: '-3px 3px 30px #F3F3F3',
+  boxShadow: '-5px 5px 30px #F3F3F3',
   borderRadius: '5px'
 }
 style.name = {
@@ -47,13 +49,30 @@ const Good = ({id, name, description, img, price}) => (
       style={style.desc}>{description}</p>
     <img src={img} width="130" height="130" alt={name}/>
     <span
-      style={style.price}>￥{price}</span>
+      style={style.price}>￥{price.toFixed(2)}</span>
     <Icon 
       type={'lineheart'}
-      position={'absolute'}
-      bottom={'20px'}
-      right={'14px'}
+      style={{
+        position: 'absolute',
+        bottom: '20px',
+        right: '14px',
+        zIndex: '10'
+      }}
     />
+    <Link 
+      to={{
+        pathname:`/good/${id}`,
+        state: {id, name, description, img, price}
+      }} 
+      style={{
+        display: 'block',
+        position: 'absolute',
+        left: '0',
+        right: '0',
+        top: '0',
+        bottom: '0',
+        zIndex: '5'
+    }}/>
   </div>
 )
 

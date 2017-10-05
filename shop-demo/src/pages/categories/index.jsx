@@ -1,6 +1,8 @@
 import React, { Component } from 'react'
 import superagent from 'superagent'
 
+import { categoriesAPI } from '../../api'
+
 import Header from  '../../components/Header'
 import Category from './category'
 
@@ -19,12 +21,12 @@ class Categories extends Component {
   }
   componentDidMount() {
     superagent
-      .get('http://localhost:3001/api/categories')
+      .get(categoriesAPI)
       .end((err, sres) => {
         if (err) {
           console.log(err)
         }
-        const resText = JSON.parse(sres.text)
+        const resText = sres.body
         this.setState({categories: resText})
       })
   }
@@ -48,4 +50,5 @@ class Categories extends Component {
     )
   }
 }
+
 export default Categories

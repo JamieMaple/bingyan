@@ -16,6 +16,11 @@ style.number = {
   color: '#8C8C8C',
   verticalAlign: 'bottom'
 }
+style.button={
+  display: 'inline-block',
+  boxSizing: 'border-box',
+  padding: '5px'
+}
 
 class NumberControl extends Component {
   constructor(props) {
@@ -35,12 +40,10 @@ class NumberControl extends Component {
   }
   render() {
     const buttons = this.state.buttons.map((button, index) => (
-      <Icon key={`button-${index}`}
+      <Icon 
+        key={`button-${index}`}
         type={button.type}
-        display={'inline-block'}
-        boxSizing={'border-box'}
-        color={button.color}
-        padding={'5px'} />
+        style={{...style.button, color: button.color}} />
     ))
     return (
       <div className="number-control"

@@ -1,28 +1,31 @@
 import React, { Component } from 'react'
 import superagent from 'superagent'
+import { Scrollbars } from 'react-custom-scrollbars'
+
+import { goodsAPI } from '../../api'
 
 import Icon from '../../components/Icon/index'
 import Good from '../../components/Good'
 
 const style = {}
 style.mainWrapper = {
-  minHeight: '100vh', 
-  background: '#fff'
+  height: '100vh',
+  background: '#F3F3F3',
 }
 style.header = {
-  position: 'absolute',
-  top: '0',
-  left: '0',
-  right: '0',
   height: '200px',
+  paddingTop: '90px',
   background: '#C5B08E',
   color: '#fff'
 }
 style.headerCategoryName = {
   textAlign: 'center',
-  margin: '90px 0 5px',
+  padding: '20px 0 10px 0',
+  zIndex: '20',
   fontSize: '25px',
-  fontWeight: '200'
+  fontWeight: '200',
+  background: '#C5B08E',
+  transition: 'all .2s ease'
 }
 style.headerCategoryInfo = {
   textAlign: 'center',
@@ -33,8 +36,9 @@ style.bodyWrapper = {
   display: 'flex',
   flexWrap: 'wrap',
   justifyContent: 'center',
-  padding: '5px 0 10px',
-  marginTop: '200px'
+  maxWidth: '800px',
+  margin: '0 auto',
+  padding: '5px 0 10px'
 }
 
 const Header = ({name, description, handleBack}) => (
@@ -42,12 +46,16 @@ const Header = ({name, description, handleBack}) => (
     style={style.header}>
     <Icon type={'arrow'} 
       handleClick={handleBack}
-      position={'fixed'}
-      left={'15px'}
-      top={'20px'}
-      fontSize={'20px'}
+      style={{
+        position: 'fixed',
+        left: '15px',
+        top: '20px',
+        fontSize: '20px',
+        zIndex: '30'
+      }}
     />
-    <h1 style={style.headerCategoryName}>{name}</h1>
+    <h1 className="title-name"
+      style={style.headerCategoryName}>{name}</h1>
     <p style={style.headerCategoryInfo}>{description}</p>
   </div>
 )
@@ -55,6 +63,7 @@ const Body = ({goods}) => {
   const goodsToHtml = goods.map(good => (
     <Good 
       key={good._id}
+      id={good._id}
       name={good.name}
       description={good.description}
       img={good.img}
@@ -72,50 +81,71 @@ const Body = ({goods}) => {
 class CategoryPage extends Component {
   constructor(props) {
     super(props)
+    let { state } = this.props.location
+
     this.state = {
       id: this.props.match.params.id,
-      name: '',
-      description: '',
+      name: state.title,
+      description: state.desc,
       start: 0,
       goods: []
     }
+
+    this.handleScroll = this.handleScroll.bind(this)
   }
+
+  handleScroll() {
+    let scrollTop = document.documentElement.scrollTop,
+      headerDOM = document.querySelector('.header'),
+      titleDOM = document.querySelector('.title-name'),
+      titleToHeaderTop = parseInt(headerDOM.style.paddingTop, 10)
+    console.log(scrollTop)
+    titleDOM.style.left='0'
+    titleDOM.style.right='0'
+    titleDOM.style.top='0'
+
+    if (scrollTop >= titleToHeaderTop) {
+      titleDOM.style.position = 'fixed'
+      titleDOM.style.opacity = '0.9'
+      titleDOM.style.boxShadow = '0 2px 8px rgb(145, 145, 145)'
+    }else{
+      titleDOM.style.position = 'static'
+      titleDOM.style.opacity = '1'
+      titleDOM.style.boxShadow = 'none'
+    }
+  }
+
   componentDidMount() {
     superagent
-      .get('http://localhost:3001/api/categories')
-      .query({id: this.state.id})
-      .end((err, sres) => {
-        if (err) {
-          console.log(err)
-        }
-        
-        const { name='未知分类', description='暂无介绍' } = JSON.parse(sres.text)[0]
-        this.setState({name, description})
-      })
-    superagent
-      .get('http://localhost:3001/api/category')
-      .query({id: this.state.id, start: this.state.start})
+      .get(goodsAPI)
+      .query({category: this.state.id, start: this.state.start})
       .end((err, sres) => {
         if(err) {
           console.log(err)
         }
-        const goods = JSON.parse(sres.text)
+        
+        const goods = sres.body
         this.setState({goods})
       })
+    window.addEventListener('scroll', this.handleScroll)
   }
+
+  componentWillUnmount() {
+    window.removeEventListener('scroll', this.handleScroll)
+  }
+
   render(){
     const { history } = this.props
     const { name, description, goods } = this.state
 
     return (
-      <div className="goods-wrapper"
-        style={style.mainWrapper}>
+      <Scrollbars style={style.mainWrapper}>
         <Header 
           name={name}
           description={description}
           handleBack={() => {history.goBack()}} />
         <Body goods={goods} />
-      </div>
+      </Scrollbars>
     )
   }
 }

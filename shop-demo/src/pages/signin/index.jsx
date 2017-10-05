@@ -43,7 +43,11 @@ const SignIn = ({history}) => (
         style={style.inputGroup}>
         <input type="text" style={style.input} placeholder={'用户名'} />
         <input type="password" style={style.input} placeholder={'密码'} />
-        <Button text={'登录'} padding={'14px 0'} />
+        <Button
+          text={'登录'}
+          style={{
+            padding: '14px 0'
+          }} />
       </div>
     </div>
   </div>

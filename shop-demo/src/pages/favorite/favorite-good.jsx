@@ -70,7 +70,9 @@ class FavoriteGood extends Component {
             style={style.price}>￥{price}</h3>
           <div className="icon-control"
             style={style.iconControl}>
-            <Icon type={'fullheart'} color="#EA4F4F" />
+            <Icon 
+              type={'fullheart'}
+              style={{color: '#EA4F4F'}} />
           </div>
         </div>
       </div>
