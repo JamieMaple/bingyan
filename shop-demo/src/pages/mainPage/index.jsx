@@ -5,6 +5,7 @@ import SideBarControl from '../../components/Sidebar'
 
 import NotFound from '../404'
 import Search from '../search'
+import SearchPage from '../searchPage'
 import Categories from '../categories'
 import CategoryPage from '../categoryPage/index'
 import GoodDetail from '../goodDetail'
@@ -32,7 +33,12 @@ class MainPage extends Component {
 
   render () {
     const { location, match } = this.props,
-      mainPath = ['/search', '/categories', '/favorite', '/cart']
+      mainPath = [
+        '/search', 
+        '/categories',
+        '/favorite',
+        '/cart'
+      ]
     let header = null,
       isGoodDetail = match.url === '/good'
   
@@ -50,7 +56,8 @@ class MainPage extends Component {
         {header}
         <div className="page-body">
           <Switch location={isGoodDetail ? this.previousLocation : location}>
-            <Route path="/search" component={Search} />
+            <Route exact path="/search" component={Search} />
+            <Route path="/searched/:keywords" component={SearchPage} />
             <Route exact path="/categories" component={Categories} />
             <Route path="/category/:id" component={CategoryPage} />
             <Route path="/favorite" component={Favorite} />

@@ -6,45 +6,15 @@ import { goodsAPI } from '../../api'
 
 import Icon from '../../components/Icon/index'
 import Good from '../../components/Good'
+import Loader from '../../components/Loader'
 
-const style = {}
-style.mainWrapper = {
-  height: '100vh',
-  background: '#F3F3F3',
-}
-style.header = {
-  height: '200px',
-  paddingTop: '90px',
-  background: '#C5B08E',
-  color: '#fff'
-}
-style.headerCategoryName = {
-  textAlign: 'center',
-  padding: '20px 0 10px 0',
-  zIndex: '20',
-  fontSize: '25px',
-  fontWeight: '200',
-  background: '#C5B08E',
-  transition: 'all .2s ease'
-}
-style.headerCategoryInfo = {
-  textAlign: 'center',
-  fontSize: '12px',
-  fontWeight: '100'
-}
-style.bodyWrapper = {
-  display: 'flex',
-  flexWrap: 'wrap',
-  justifyContent: 'center',
-  maxWidth: '800px',
-  margin: '0 auto',
-  padding: '5px 0 10px'
-}
+import style from './style'
+import NoMore from '../../components/NoMore/index';
 
 const Header = ({name, description, handleBack}) => (
   <div className="header"
     style={style.header}>
-    <Icon type={'arrow'} 
+    <Icon type={'arrow'}
       handleClick={handleBack}
       style={{
         position: 'fixed',
@@ -59,7 +29,7 @@ const Header = ({name, description, handleBack}) => (
     <p style={style.headerCategoryInfo}>{description}</p>
   </div>
 )
-const Body = ({goods}) => {
+const Body = ({goods, handleAjaxSend, perPage, isLoading}) => {
   const goodsToHtml = goods.map(good => (
     <Good 
       key={good._id}
@@ -70,8 +40,9 @@ const Body = ({goods}) => {
       price={good.price}
     />
   ))
+  
   return (
-    <div className="body-wrapper"
+    <div className="goods-wrapper"
       style={style.bodyWrapper}>
       {goodsToHtml}
     </div>
@@ -87,64 +58,98 @@ class CategoryPage extends Component {
       id: this.props.match.params.id,
       name: state.title,
       description: state.desc,
-      start: 0,
-      goods: []
+      page: 0,
+      perPage: 20,
+      requestNum: 0,
+      goods: [],
+      isLoading: true
     }
-
-    this.handleScroll = this.handleScroll.bind(this)
+    
+    this.handleAjaxSend = this.handleAjaxSend.bind(this)
   }
 
-  handleScroll() {
-    let scrollTop = document.documentElement.scrollTop,
-      headerDOM = document.querySelector('.header'),
-      titleDOM = document.querySelector('.title-name'),
-      titleToHeaderTop = parseInt(headerDOM.style.paddingTop, 10)
-    console.log(scrollTop)
-    titleDOM.style.left='0'
-    titleDOM.style.right='0'
-    titleDOM.style.top='0'
+  handleScroll(e) {
+    const header = document.querySelector('.header'),
+      title = header.querySelector('h1'),
+      headerPadding = parseInt(header.style.paddingTop, 10),
+      scrollTop=e.target.scrollTop,
+      totalHeight=e.target.scrollHeight,
+      bodyHeight=document.body.offsetHeight
 
-    if (scrollTop >= titleToHeaderTop) {
-      titleDOM.style.position = 'fixed'
-      titleDOM.style.opacity = '0.9'
-      titleDOM.style.boxShadow = '0 2px 8px rgb(145, 145, 145)'
+    const {isLoading, requestNum, perPage} = this.state
+
+    title.style.top = '0'
+    title.style.left = '0'
+    title.style.right = '0'
+
+    if (scrollTop >= headerPadding) {
+      title.style.position = 'fixed'
+      title.style.opacity = '.9'
+      title.style.boxShadow = '0 2px 5px #919191'
     }else{
-      titleDOM.style.position = 'static'
-      titleDOM.style.opacity = '1'
-      titleDOM.style.boxShadow = 'none'
+      title.style.position = 'static'
+      title.style.opacity = '1'
+      title.style.boxShadow = 'none'
+    }
+    // ajax
+    if (totalHeight - bodyHeight <= scrollTop && requestNum >= perPage && !isLoading) {
+      this.setState({isLoading: true})
+      this.handleAjaxSend()
     }
   }
 
-  componentDidMount() {
+  handleAjaxSend() {
+    const {id, page, perPage} = this.state
     superagent
       .get(goodsAPI)
-      .query({category: this.state.id, start: this.state.start})
+      .query({category: id, page: page, perPage: perPage})
       .end((err, sres) => {
         if(err) {
           console.log(err)
         }
         
         const goods = sres.body
-        this.setState({goods})
+        const requestNum = goods.length
+
+        this.setState({
+          goods: [...this.state.goods, ...goods], 
+          page: this.state.page+1,
+          requestNum,
+          isLoading: false
+        })
       })
-    window.addEventListener('scroll', this.handleScroll)
   }
 
-  componentWillUnmount() {
-    window.removeEventListener('scroll', this.handleScroll)
+  componentDidMount() {
+    this.handleAjaxSend()
   }
+
 
   render(){
     const { history } = this.props
-    const { name, description, goods } = this.state
+    const { name, description, goods, perPage, isLoading, requestNum } = this.state
+
+    let noMoreText = '没有更多了呢'
+
+    if (goods.length === 0) {
+      noMoreText = '没有搜索到哦'
+    }
 
     return (
-      <Scrollbars style={style.mainWrapper}>
-        <Header 
+      <Scrollbars
+        onScroll={(e) => {this.handleScroll(e)}}
+        style={style.mainWrapper}>
+        <Header
           name={name}
           description={description}
           handleBack={() => {history.goBack()}} />
-        <Body goods={goods} />
+        <Body 
+          goods={goods}
+          perPage={perPage}
+          isLoading={isLoading}
+          handleAjaxSend={this.handleAjaxSend} />
+        {isLoading ? <Loader /> : null}
+        {!isLoading && requestNum < perPage ? <NoMore text={noMoreText} /> : null}
       </Scrollbars>
     )
   }

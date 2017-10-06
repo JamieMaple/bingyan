@@ -1,5 +1,7 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
+import { Scrollbars } from 'react-custom-scrollbars'
+
 import Header from '../../components/Header'
 import FavoriteGood from './favorite-good'
 
@@ -8,6 +10,7 @@ style.body = {
   position: 'absolute',
   top: '55px',
   left: '0',
+  bottom: '0',
   right: '0'
 }
 
@@ -103,10 +106,16 @@ class Favorite extends Component {
     ))
     return (
       <div  className="favorite-wrapper">
-        <Header text={'收藏夹'} boxShadow={'0px 1px 5px #919191'} />
+        <Header
+          text={'收藏夹'}
+          style={{
+            boxShadow: '0px 1px 5px #919191'
+          }} />
         <div className="favorite-body"
           style={style.body}>
-          {items}
+          <Scrollbars>
+            {items}
+          </Scrollbars>
         </div>
       </div>
     )

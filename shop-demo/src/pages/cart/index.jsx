@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import { Scrollbars } from 'react-custom-scrollbars'
 
 import Header from '../../components/Header'
 import CartGood from './cart-good'
@@ -78,10 +79,16 @@ class Cart extends Component {
     ))
     return (
       <div className="cart-wrapper">
-        <Header text={'购物车'} boxShadow={'0px 1px 5px #919191'} />
+        <Header
+          text={'购物车'}
+          style={{
+            boxShadow: '0px 1px 5px #919191'
+          }} />
         <div className="cart-body"
-          style={style.body}>
-          {items}
+          style={{height: '100vh'}}>
+          <Scrollbars >
+            {items}
+          </Scrollbars>
         </div>
         <div className="cart-footer"
           style={style.footer}>

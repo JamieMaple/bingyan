@@ -30,20 +30,20 @@ style.header = {
     color: '#fff'
   },
   name: {
-    paddingTop: '10px',
-    lineHeight: '25px',
+    paddingTop: '14px',
     maxWidth: '75%',
     margin: '0 auto',
     textAlign: 'center',
-    fontSize: '20px',
+    fontSize: '16px',
     whiteSpace: 'nowrap',
     overflow: 'hidden',
     textOverflow: 'ellipsis'
   },
   icon: {
     position: 'absolute',
-    top: '10px',
-    fontSize: '25px'
+    top: '16px',
+    fontSize: '20px',
+    color: '#C7C7C7'
   }
 }
 style.imgGroup = {
@@ -57,7 +57,7 @@ style.img = {
 style.description = {
   width: '90%',
   margin: '25px auto 20px auto',
-  fontSize: '14px 5px',
+  fontSize: '14px',
   color: '#919191'
 }
 style.priceQuantity = {

@@ -1,4 +1,5 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 import { Link } from 'react-router-dom'
 
 import Icon from '../Icon'
@@ -51,12 +52,13 @@ const Good = ({id, name, description, img, price}) => (
     <span
       style={style.price}>￥{price.toFixed(2)}</span>
     <Icon 
-      type={'lineheart'}
+      type={'fullheart'}
       style={{
         position: 'absolute',
         bottom: '20px',
         right: '14px',
-        zIndex: '10'
+        zIndex: '10',
+        color: '#C7C7C7'
       }}
     />
     <Link 
@@ -72,8 +74,23 @@ const Good = ({id, name, description, img, price}) => (
         top: '0',
         bottom: '0',
         zIndex: '5'
-    }}/>
+      }}/>
   </div>
 )
+
+Good.proptypes = {
+  id: PropTypes.string, 
+  name: PropTypes.string,
+  description: PropTypes.string,
+  img: PropTypes.string, 
+  price: PropTypes.string
+}
+Good.defaultProps = {
+  id: '',
+  name: '',
+  description: '',
+  img: '',
+  price: 30
+}
 
 export default Good

@@ -56,8 +56,7 @@ class Navigator extends Component {
       </li>
     ))
     return (
-      <ul className="nav-container"
-        style={{margin: 0}}>
+      <ul className="nav-container">
         {navItems}
       </ul>
     )

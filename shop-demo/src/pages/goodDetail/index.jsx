@@ -16,8 +16,8 @@ const Header = ({ name, goBack }) => (
       style={{...style.header.icon, left: '10px'}} />
     <h1 className="name"
       style={style.header.name}>{name}</h1>
-    <Icon 
-      type={'lineheart'}
+    <Icon
+      type={'fullheart'}
       style={{...style.header.icon, right: '10px'}} />
   </div>
 )
@@ -37,8 +37,14 @@ class GoodDetail extends Component {
   }
 
   render() {
-    const { history } = this.props
-    const { name, description, img, price, quantity } = this.state
+    const { history } = this.props,
+      { name, description, img, price, quantity } = this.state,
+      options = [1,2,3,4,5,6,7,8,9,10].map((value, index) => (
+        <option
+          key={`option-${value}`}
+          value={value}
+        >{value}</option>
+      ))
 
     return (
       <div className="detail-wrapper"
@@ -77,10 +83,7 @@ class GoodDetail extends Component {
               <select className="option-group" 
                 onChange={(e)=>{this.selectQuantity(e)}}
                 style={style.quantity}>
-                <option value="1" defaultValue>1</option>
-                <option value="2">2</option>
-                <option value="5">5</option>
-                <option value="10">10</option>
+                {options}
               </select>
             </div>
             <div className="right-box"
@@ -88,7 +91,7 @@ class GoodDetail extends Component {
               <h2 className="title"
                 style={style.boxTitle}>总额</h2>
               <h3 className="price"
-                style={style.price}>￥{price*quantity}</h3>
+                style={style.price}>￥{(price*quantity).toFixed(2)}</h3>
             </div>
           </div>
           <div className="button-group"
