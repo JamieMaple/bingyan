@@ -1,9 +1,11 @@
 const express = require('express')
 const mongoose = require('mongoose')
 const cors = require('cors')
+const bodyParser = require('body-parser')
 const app = express()
 
 app.use(cors())
+app.use(bodyParser.urlencoded({limit: '100mb', extended: true}))
 
 mongoose.connect('mongodb://localhost/Shop', {
   useMongoClient: true
@@ -28,8 +30,8 @@ const goodsSchema = new Schema({
 
 app.get('/api/categories', (req, res) => {
   var categoriesModel = mongoose.model('categories', categoriesSchema)
-  var id = req.query.id
-  var query = id ? { id } : {}
+  var category = req.query.category
+  var query = category ? { id: category } : {}
 
   categoriesModel.find(query, (err, docs) => {
     if (err) {
@@ -47,16 +49,41 @@ app.get('/api/categories', (req, res) => {
   })
 })
 
-app.get('/api/category', (req, res) => {
-  var { id=0, page=0,perPage=20 } = req.query
+app.get('/api/goods', (req, res) => {
+  var { category, keywords, page=0, perPage=20 } = req.query
   var goodsModel = mongoose.model('goods', goodsSchema)
   var error = JSON.stringify({ message: 'error', code: '100' })
-  var perPage = perPage >= 20? 20 : perPage
+  var query = {}
 
-  id = Math.max(0, id)
   page = Math.max(0, page)
+  perPage = Number(perPage)
 
-  goodsModel.find({category: id}, (err, docs) => {
+  if (typeof perPage !== 'number') {
+    perPage = 20
+  }else{
+    perPage = perPage >= 20 ? 20 : perPage
+  }
+  
+  if(category) {
+    // find category goods
+    category = Math.max(0, category)
+    query = {category: category}
+  }else if(keywords){
+    keywords = keywords.split('+')
+    // search for keywords array
+    let queryArr = keywords.map(keyword => ({
+      $or: [
+        {name: new RegExp(keyword, 'g')},
+        {description: new RegExp(keyword, 'g')},
+      ]
+    }))
+    
+    query = {
+      $and: [...queryArr]
+    }
+  }
+
+  goodsModel.find(query, (err, docs) => {
     if (err) {
       res.send(error)
     }
@@ -75,6 +102,20 @@ app.get('/api/category', (req, res) => {
       res.send(err)
     }
   )
+})
+
+app.post('/api/login', (req, res) => {
+  if(!req.body.username) {
+    res.sendStatus(400)
+    return
+  }
+
+  if(!req.body.password) {
+    res.sendStatus(400)
+    return
+  }
+
+  res.json({data: 'protectced'})
 })
 
 const APP_PORT = 3001
