@@ -3,7 +3,6 @@ import { Switch, Route } from 'react-router-dom'
 
 import SideBarControl from '../../components/Sidebar'
 
-import NotFound from '../404'
 import Search from '../search'
 import SearchPage from '../searchPage'
 import Categories from '../categories'
@@ -32,7 +31,7 @@ class MainPage extends Component {
   }
 
   render () {
-    const { location, match } = this.props,
+    const { location, match, history } = this.props,
       mainPath = [
         '/search', 
         '/categories',
@@ -46,7 +45,7 @@ class MainPage extends Component {
       header = (
         <div className="page-header"
           style={style.header}>
-          <SideBarControl />
+          <SideBarControl history={history} />
         </div>
       )
     }
@@ -62,7 +61,6 @@ class MainPage extends Component {
             <Route path="/category/:id" component={CategoryPage} />
             <Route path="/favorite" component={Favorite} />
             <Route path="/cart" component={Cart} />
-            <Route component={NotFound} />
           </Switch>
           {isGoodDetail ? <Route path="/good/:id" component={GoodDetail} /> : null}
         </div>

@@ -1,8 +1,10 @@
-import React from 'react'
+import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { Link } from 'react-router-dom'
 
 import Icon from '../Icon'
+
+import { tokenName } from '../../api'
 
 const style = {} 
 style.goodWrapper = {
@@ -39,44 +41,61 @@ style.price = {
   color: '#0D9F67'
 }
 
-const Good = ({id, name, description, img, price}) => (
-  <div
-    className="good-wrapper"
-    style={style.goodWrapper}
-  >
-    <h1 className="good-name"
-      style={style.name}>{name}</h1>
-    <p className="good-desc"
-      style={style.desc}>{description}</p>
-    <img src={img} width="130" height="130" alt={name}/>
-    <span
-      style={style.price}>￥{price.toFixed(2)}</span>
-    <Icon 
-      type={'fullheart'}
-      style={{
-        position: 'absolute',
-        bottom: '20px',
-        right: '14px',
-        zIndex: '10',
-        color: '#C7C7C7'
-      }}
-    />
-    <Link 
-      to={{
-        pathname:`/good/${id}`,
-        state: {id, name, description, img, price}
-      }} 
-      style={{
-        display: 'block',
-        position: 'absolute',
-        left: '0',
-        right: '0',
-        top: '0',
-        bottom: '0',
-        zIndex: '5'
-      }}/>
-  </div>
-)
+class Good extends Component {
+
+  handleAddToFavorite() {
+    const { history } = this.props
+
+    if(!localStorage.getItem(tokenName)) {
+      window.confirm('还没有登录，是否登录') && history.push('/signin')
+    }
+  }
+
+  render() {
+    const {id, name, description, img, price} = this.props
+
+    return (
+      <div
+        className="good-wrapper"
+        style={style.goodWrapper}
+      >
+        <h1 className="good-name"
+          style={style.name}>{name}</h1>
+        <p className="good-desc"
+          style={style.desc}>{description}</p>
+        <img src={img} width="130" height="130" alt={name}/>
+        <span
+          style={style.price}>￥{price.toFixed(2)}</span>
+        <Icon 
+          type={'fullheart'}
+          handleClick={() => {this.handleAddToFavorite()}}
+          style={{
+            position: 'absolute',
+            bottom: '20px',
+            right: '14px',
+            zIndex: '10',
+            color: '#C7C7C7'
+          }}
+        />
+        <Link 
+          to={{
+            pathname:`/good/${id}`,
+            state: {id, name, description, img, price}
+          }} 
+          style={{
+            display: 'block',
+            position: 'absolute',
+            left: '0',
+            right: '0',
+            top: '0',
+            bottom: '0',
+            zIndex: '5'
+          }}/>
+      </div>
+    )
+  }
+}
+
 
 Good.proptypes = {
   id: PropTypes.string, 

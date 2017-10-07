@@ -7,6 +7,7 @@ import Shop from './shop'
 
 const style = {}
 style.body = {
+  height: '100vh',
   margin: '55px 0'
 }
 style.footer = {
@@ -85,7 +86,7 @@ class Cart extends Component {
             boxShadow: '0px 1px 5px #919191'
           }} />
         <div className="cart-body"
-          style={{height: '100vh'}}>
+          style={style.body}>
           <Scrollbars >
             {items}
           </Scrollbars>

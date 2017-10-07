@@ -10,6 +10,7 @@ const iconGrop = {
   lineheart: 'ion-ios-heart-outline',
   bag: 'ion-bag',
   cart: 'ion-ios-cart',
+  settings: 'ion-gear-b',
   search: 'ion-ios-search-strong',
   categories: 'ion-ios-pricetags-outline',
   favorite: 'ion-ios-heart-outline'

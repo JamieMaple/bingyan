@@ -29,7 +29,7 @@ const Header = ({name, description, handleBack}) => (
     <p style={style.headerCategoryInfo}>{description}</p>
   </div>
 )
-const Body = ({goods, handleAjaxSend, perPage, isLoading}) => {
+const Body = ({goods, handleAjaxSend, perPage, isLoading, history}) => {
   const goodsToHtml = goods.map(good => (
     <Good 
       key={good._id}
@@ -38,6 +38,7 @@ const Body = ({goods, handleAjaxSend, perPage, isLoading}) => {
       description={good.description}
       img={good.img}
       price={good.price}
+      history={history}
     />
   ))
   
@@ -147,6 +148,7 @@ class CategoryPage extends Component {
           goods={goods}
           perPage={perPage}
           isLoading={isLoading}
+          history={history}
           handleAjaxSend={this.handleAjaxSend} />
         {isLoading ? <Loader /> : null}
         {!isLoading && requestNum < perPage ? <NoMore text={noMoreText} /> : null}

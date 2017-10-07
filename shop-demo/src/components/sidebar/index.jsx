@@ -44,6 +44,7 @@ class SideBarControl extends Component {
           type={this.props.icon}
           handleLeftClick={this.handleLeftClick} />
         <SideBar
+          history={this.props.history}
           showSidebar={this.state.showSidebar}
           handleClick={this.handleLeftClick} />
       </div>

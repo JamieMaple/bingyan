@@ -6,6 +6,7 @@ import Header from '../../components/Header'
 import Button from '../../components/Button'
 
 import { signUp } from '../../api'
+import {tokenName} from '../../api/index'
 
 const style = {}
 style.body = {
@@ -50,6 +51,12 @@ class SignUp extends Component {
     }
   }
 
+  componentDidMount() {
+    if(localStorage.getItem(tokenName)) {
+      this.props.history.goBack()
+    }
+  }
+
   handleSubmit(e) {
     e.preventDefault()
     this.setState({isSubmit: true})
@@ -90,20 +97,20 @@ class SignUp extends Component {
       .post(signUp)
       .send(`email=${email}`)
       .send(`username=${username}`)
-      .send(`password=${password1}`)
-      .send(`password=${password2}`)
+      .send(`password1=${password1}`)
+      .send(`password2=${password2}`)
       .end((err, sres) => {
         if (err) {
           this.setState({isSubmit: false})
+          alert('用户名已被使用')
           throw err
         }
-        if (sres.status >= 400) {
-          alert('未知错误')
-          this.setState({isSubmit: false})
-        }
+
+        localStorage.setItem(tokenName, sres.body.token)
+
 
         if (sres.status === 200) {
-          history.push('/search')
+          history.goBack()
         }
 
       })
@@ -152,7 +159,7 @@ class SignUp extends Component {
         <Header 
           text={'注册'} 
           icon={'arrow'} 
-          handleClick={() => {history.push('/search')}} />
+          handleClick={() => {history.goBack()}} />
         <div className="body"
           style={style.body}>
           <div className="logo-wrapper"
