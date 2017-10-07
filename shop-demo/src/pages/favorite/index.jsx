@@ -95,6 +95,10 @@ class Favorite extends Component {
       ]
     }
   }
+
+  componentWillMount() {
+  }
+
   render() {
     const items = this.state.items.map((item, index) => (
       <FavoriteGood
