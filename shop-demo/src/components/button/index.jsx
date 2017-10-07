@@ -30,24 +30,21 @@ _style.link = {
   right: '0',
   height: '100%'
 }
+_style.disabled = {
+  background: '#919191'
+}
 
 class Button extends Component {
-  constructor(props) {
-    super(props)
-
-    this.handleClick = this.handleClick.bind(this)
-  }
-
-  handleClick() {
-    console.log('click happened')
-  }
-
   render() {
-    let { text, path, style } = this.props
+    let { text, path, style, disabled, handleClick, type } = this.props
     let link = null
 
     if (path !== '') {
       link = <Link to={path} style={_style.link}></Link>
+    }
+
+    if(disabled) {
+      style = {...style, ..._style.disabled}
     }
 
     switch (style.background) {
@@ -66,21 +63,29 @@ class Button extends Component {
 
     return (
       <button
-        type="button"
+        type={type}
+        disabled={disabled}
         style={{..._style.button, ...style}}
-        onClick={this.handleClick}>
+        onClick={handleClick}>
         {link}
         {text}
       </button>
     )
   }
 }
+
 Button.propTypes = {
+  type: PropTypes.string,
   text: PropTypes.string,
-  style: PropTypes.object
+  style: PropTypes.object,
+  disabled: PropTypes.bool
 }
+
 Button.defaultProps = {
+  type: 'button',
   text: '按钮',
+  disabled: false,
+  handleClick: function() {},
   style: {
     background: color.green
   },

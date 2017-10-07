@@ -1,0 +1,12 @@
+.signin-input-group ::-webkit-input-placeholder { /* WebKit browsers */
+  color:#0D9F67;
+  }
+.signin-input-group :-moz-placeholder { /* Mozilla Firefox 4 to 18 */
+  color:#0D9F67;
+}
+.signin-input-group ::-moz-placeholder { /* Mozilla Firefox 19+ */
+  color:#0D9F67;
+}
+.signin-input-group :-ms-input-placeholder { /* Internet Explorer 10+ */
+  color:#0D9F67;
+}
