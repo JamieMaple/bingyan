@@ -1,13 +1,20 @@
 import React, { Component } from 'react'
 import { Scrollbars } from 'react-custom-scrollbars'
+import superagent from 'superagent'
 
 import Mask from '../../components/Mask'
 import Icon from '../../components/Icon'
 import Button from '../../components/Button'
 
+import { goodsAPI, tokenName } from '../../api'
+
 import style from './style'
 
-const Header = ({ name, goBack }) => (
+const ADD_TO_FAVORITE = 0,
+  BUY_NOW = 1,
+  ADD_TO_CART = 2
+
+const Header = ({ name, goBack, addToFavorite }) => (
   <div className="header"
     style={style.header.header}>
     <Icon 
@@ -18,6 +25,7 @@ const Header = ({ name, goBack }) => (
       style={style.header.name}>{name}</h1>
     <Icon
       type={'fullheart'}
+      handleClick={() => {addToFavorite(ADD_TO_FAVORITE)}}
       style={{...style.header.icon, right: '10px'}} />
   </div>
 )
@@ -25,15 +33,49 @@ const Header = ({ name, goBack }) => (
 class GoodDetail extends Component {
   constructor(props) {
     super(props)
-    let { state } = this.props.location
+    const { location } = this.props
     this.state = {
-      ...state,
-      quantity: 1
+      id: location.pathname.split('/')[2],
+      quantity: 1,
+      ...location.state
+    }
+  }
+
+  componentDidMount() {
+    let { state } = this.props.location
+
+    let { id } = this.state
+
+    if (!state) {
+      superagent
+        .get(goodsAPI)
+        .query({id})
+        .end((err, sres) => {
+          if (err) throw err
+
+          this.setState({...sres.body[0]})
+        })
     }
   }
 
   selectQuantity(e) {
     this.setState({quantity: e.target.value})
+  }
+
+  handleClickEntry(event) {
+    const { history } = this.props
+
+    if (!localStorage.getItem(tokenName)) {
+      window.confirm('还没有登录？是否登录') && history.push('/signin')
+    }
+  }
+
+  handleClickBuy() {
+
+  }
+  
+  handleAddToCart() {
+
   }
 
   render() {
@@ -57,6 +99,7 @@ class GoodDetail extends Component {
           opacity=".4" />
         <Header
           name={name}
+          addToFavorite={this.handleClickEntry.bind(this)}
           goBack={() => {history.goBack()}} />
         <Scrollbars style={style.body}>
           <div className="img-group"
@@ -98,15 +141,17 @@ class GoodDetail extends Component {
             style={style.buttonGroup}>
             <Button
               text={'立即下单'}
+              handleClick={() => {this.handleClickEntry(BUY_NOW)}}
               style={{
                 ...style.button
               }} />
             <Button
               text={'添加至购物车'}
+              handleClick={() => {this.handleClickEntry(ADD_TO_CART)}}
               style={{
-                ...style.button, 
-                color: '#C7C7C7', 
-                background: '#fff', 
+                ...style.button,
+                color: '#C7C7C7',
+                background: '#fff',
                 border: '2px solid #C7C7C7',
                 marginBottom: '30px'
               }} />

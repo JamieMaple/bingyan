@@ -89,6 +89,7 @@ class SearchPage extends Component {
           description={good.description}
           price={good.price}
           img={good.img}
+          history={history}
         />
       ))
 

@@ -5,7 +5,7 @@ import Header from '../../components/Header'
 import Logo from '../../components/Logo'
 import Button from '../../components/Button'
 
-import { signIn } from '../../api'
+import { signIn, tokenName } from '../../api'
 
 import './style.css'
 
@@ -41,6 +41,12 @@ class SignIn extends Component {
     }
   }
 
+  componentDidMount() {
+    if(localStorage.getItem(tokenName)) {
+      this.props.history.goBack()
+    }
+  }
+
   handleSubmit(e) {
     e.preventDefault()
 
@@ -55,17 +61,15 @@ class SignIn extends Component {
       .send(`password=${password}`)
       .end((err, sres) => {
         if (err) {
-          this.setState({isSubmit: false})
-          throw err
-        }
-
-        if (sres.status >= 400){
           alert('用户名或密码错误')
           this.setState({isSubmit: false})
+          return
         }
+        
+        localStorage.setItem(tokenName, sres.body.token)
 
         if (sres.status === 200) {
-          history.push('/search')
+          history.goBack()
         }
       })
 
@@ -80,7 +84,7 @@ class SignIn extends Component {
         <Header
           text={'登录'}
           icon={'cross'}
-          handleClick={() => {history.push('/search')}}
+          handleClick={() => {history.goBack()}}
         />
         <div className="body"
           style={style.body}>

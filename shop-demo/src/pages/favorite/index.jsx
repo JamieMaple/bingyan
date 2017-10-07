@@ -2,6 +2,8 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { Scrollbars } from 'react-custom-scrollbars'
 
+// import { tokenName } from '../../api'
+
 import Header from '../../components/Header'
 import FavoriteGood from './favorite-good'
 
@@ -18,8 +20,7 @@ class Favorite extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      items:
-      [
+      items: [
         {
           id: '12024',
           name: 'food1',
@@ -92,11 +93,10 @@ class Favorite extends Component {
           desc: 'description',
           price: 9.1
         }
-      ]
+      ],
+      isSignIn: false,
+      token: ''
     }
-  }
-
-  componentWillMount() {
   }
 
   render() {
