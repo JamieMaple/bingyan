@@ -6,13 +6,15 @@ style.wrapper = {
   margin: '50px 5px'
 }
 style.title = {
+  margin: 'auto',
   textAlign: 'center',
   color: '#919191'
 }
 
-const NoMore = ({text}) => (
-  <div className="no-more"
-    style={style.wrapper}>
+const NoMore = ({text, WrapperStyle}) => (
+  <div
+    className="no-more"
+    style={{...style.wrapper, ...WrapperStyle}}>
     <h1 style={style.title}>（*+﹏+*）~ {text}</h1>
   </div>
 )

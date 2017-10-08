@@ -4,18 +4,13 @@ const mongoose = require('mongoose')
 
 const { Goods, Categories } = require('../models')
 
-// 该路由使用的中间件
-router.use(function(req, res, next) {
-  next()
-})
-
 router.get('/categories', (req, res) => {
   var category = req.query.category
   var query = category ? { id: category } : {}
 
   Categories.find(query, (err, docs) => {
     if (err) throw err;
-    
+
     return [...docs]
   })
   .sort({id: 1})
@@ -40,7 +35,7 @@ router.get('/goods', (req, res) => {
   }else{
     perPage = perPage >= 20 ? 20 : perPage
   }
-  
+
   if(category) {
     // find category goods
     category = Math.max(0, category)
@@ -54,7 +49,7 @@ router.get('/goods', (req, res) => {
         {description: new RegExp(keyword, 'g')},
       ]
     }))
-    
+
     query = {
       $and: [...queryArr]
     }

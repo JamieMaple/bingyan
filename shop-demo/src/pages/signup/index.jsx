@@ -108,7 +108,6 @@ class SignUp extends Component {
 
         localStorage.setItem(tokenName, sres.body.token)
 
-
         if (sres.status === 200) {
           history.goBack()
         }

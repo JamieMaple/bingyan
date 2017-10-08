@@ -6,14 +6,9 @@ const { Users } = require('../models')
 
 const secretKey = require('./secretkey').secret
 
-const TOKEN_TIME = 60*60*12
-
-router.use(function(req, res, next) {
-  next()
-})
+const TOKEN_TIME = 60 * 60 * 2
 
 router.post('/signin', (req, res) => {
-  console.log(req.body)
   if(!req.body.username) {
     res.sendStatus(400)
     return
@@ -43,16 +38,16 @@ router.post('/signin', (req, res) => {
       res.json({token})
     }else {
       res.sendStatus(400)
-      return
     }
   })
 })
-  
+
 router.post('/signup', (req, res) => {
   const {email, username, password1, password2} = req.body
 
   if (!email || !username || !password1 || !password2) {
     res.sendStatus(400)
+    
     return
   }
   const emailReg = /^[a-zA-Z0-9_-]+@[a-zA-Z0-9_-]+(\.[a-zA-Z0-9_-]+)+$/,
@@ -80,12 +75,11 @@ router.post('/signup', (req, res) => {
     res.send(400)
     return
   }
-  console.log(req.body)
 
   Users.findOne({username}, (err, user) => {
     let done = false
     if (err) throw err
-    
+
     if (user) {
       res.sendStatus(400)
 
@@ -96,9 +90,9 @@ router.post('/signup', (req, res) => {
   })
   .then((done) => {
     if (!done) {
-      
+
         let user = new Users({email, username, password, favorite: [], cart: []})
-      
+
         user.save((err) => {
           if (err) throw err
 

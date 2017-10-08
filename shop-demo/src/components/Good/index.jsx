@@ -1,10 +1,12 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { Link } from 'react-router-dom'
+import superagent from 'superagent'
 
 import Icon from '../Icon'
 
-import { tokenName } from '../../api'
+import { tokenName, favorite, type as sendType } from '../../api'
+import cleanLocalStorage from '../../utills/cleanLocalStorage'
 
 const style = {} 
 style.goodWrapper = {
@@ -40,19 +42,54 @@ style.price = {
   fontSize: '14px',
   color: '#0D9F67'
 }
+style.defaultIcon = {
+  position: 'absolute',
+  bottom: '20px',
+  right: '14px',
+  zIndex: '10',
+  color: '#C7C7C7'
+}
+style.favoriteIcon = {
+  color: '#EA4F4F'
+}
 
 class Good extends Component {
+  constructor(props) {
+    super(props)
+
+    this.state = {
+      isFavorite: this.props.isFavorite
+    }
+  }
 
   handleAddToFavorite() {
-    const { history } = this.props
+    const { history, id } = this.props,
+      token = localStorage.getItem(tokenName)
 
-    if(!localStorage.getItem(tokenName)) {
+    let type = this.state.isFavorite ? sendType.DELETE : sendType.ADD
+    
+    if(token){
+      superagent
+        .post(favorite)
+        .send(`token=${token}`)
+        .send(`type=${type}`)
+        .send(`goodid=${id}`)
+        .end((err, sres) => {
+          if(sres.status !== 200) {
+            cleanLocalStorage()
+            window.confirm('登录失效，是否重新登录') && history.push('/signin')      
+          }else{
+            this.setState({isFavorite: !this.state.isFavorite})
+          }
+        })
+    }else{
       window.confirm('还没有登录，是否登录') && history.push('/signin')
     }
   }
 
   render() {
-    const {id, name, description, img, price} = this.props
+    const { id, name, description, img, price, history } = this.props,
+      { isFavorite } = this.state
 
     return (
       <div
@@ -69,19 +106,12 @@ class Good extends Component {
         <Icon 
           type={'fullheart'}
           handleClick={() => {this.handleAddToFavorite()}}
-          style={{
-            position: 'absolute',
-            bottom: '20px',
-            right: '14px',
-            zIndex: '10',
-            color: '#C7C7C7'
-          }}
-        />
+          style={isFavorite ? {...style.defaultIcon, ...style.favoriteIcon} : style.defaultIcon} />
         <Link 
           to={{
             pathname:`/good/${id}`,
-            state: {id, name, description, img, price}
-          }} 
+            state: {id, name, description, img, price, previousPath: history.location.pathname}
+          }}
           style={{
             display: 'block',
             position: 'absolute',
@@ -96,20 +126,21 @@ class Good extends Component {
   }
 }
 
-
 Good.proptypes = {
   id: PropTypes.string, 
   name: PropTypes.string,
   description: PropTypes.string,
   img: PropTypes.string, 
-  price: PropTypes.string
+  price: PropTypes.string,
+  isFavorite: PropTypes.bool
 }
 Good.defaultProps = {
   id: '',
   name: '',
   description: '',
   img: '',
-  price: 30
+  price: 30,
+  isFavorite: false
 }
 
 export default Good
