@@ -24,6 +24,20 @@ app.use('/', user)
 
 app.use('/auth', auth)
 
+app.post('/api/login', (req, res) => {
+  if(!req.body.username) {
+    res.sendStatus(400)
+    return
+  }
+
+  if(!req.body.password) {
+    res.sendStatus(400)
+    return
+  }
+
+  res.json({data: 'protectced'})
+})
+
 const APP_PORT = 3001
 
 app.listen(APP_PORT, () => {
