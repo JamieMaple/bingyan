@@ -1,5 +1,9 @@
-import React from 'react'
+import React, { Component } from 'react'
 import { Link } from 'react-router-dom'
+import superagent from 'superagent'
+
+import { tokenName, tokenVerify } from '../../api'
+import cleanLocalStorage from '../../utills/cleanLocalStorage'
 
 import BackgroundImg from '../../components/BackgroundImg'
 import Mask from '../../components/Mask'
@@ -41,44 +45,77 @@ style.footerTitle = {
 
 const bgImg = require('./img.png')
 
-const Index = () => (
-  <div style={{height: '100%'}}>
-    <div className="background-group">
-      <div className="mask"
-        style={style.backgroundItem}>
-        <Mask opacity={'.35'} />
+class Index extends Component {
+
+  componentDidMount() {
+    const history = this.props.history
+    const token = localStorage.getItem(tokenName)
+    if(token) {
+      superagent
+        .post(tokenVerify)
+        .send(`token=${token}`)
+        .end((err, sres) => {
+          if (sres.status === 200) {
+            history.push('/search')
+          }else{
+            cleanLocalStorage()
+          }
+        })
+    }
+  }
+
+  render() {
+    return (
+      <div>
+        <div className="background-group">
+          <div className="mask"
+            style={style.backgroundItem}>
+            <Mask opacity={'.35'} />
+          </div>
+          <div className="backgroundImg"
+            style={{...style.backgroundItem, zIndex: '-20'}}>
+            <BackgroundImg
+              src={bgImg}
+              style={{
+                position: 'relative',
+                width: '100%',
+                height: '100%',
+                opacity: '.8'
+              }}/>
+          </div>
+        </div>
+        <div className="logo-group"
+          style={style.logoGroup}>
+          <Logo />
+        </div>
+        <div className="button-group"
+          style={style.buttonGrop}>
+          <div className="button-1"
+            style={Object.assign({}, style.buttonDiv, {marginBottom: '15px'})}>
+            <Button
+              path="/signup"
+              text="注册"
+              style={{
+                background:'green'
+              }}/>
+          </div>
+          <div className="button-2"
+            style={style.buttonDiv}>
+            <Button
+              text="待会再说"
+              path="/search" 
+              style={{
+                background: 'blue'
+              }}/>
+          </div>
+          <div className="footer-sigin">
+            <h3 className="footer-title"
+              style={style.footerTitle}><Link to="/signin">已有账号?</Link></h3>
+          </div>
+        </div>
       </div>
-      <div className="backgroundImg"
-        style={Object.assign({}, style.backgroundItem, {zIndex: '-20'})}>
-        <BackgroundImg
-          src={bgImg}
-          style={{
-            position: 'relative',
-            width: '100%',
-            height: '100%'
-          }}/>
-      </div>
-    </div>
-    <div className="logo-group"
-      style={style.logoGroup}>
-      <Logo />
-    </div>
-    <div className="button-group"
-      style={style.buttonGrop}>
-      <div className="button-1"
-        style={Object.assign({}, style.buttonDiv, {marginBottom: '15px'})}>
-        <Button text="注册" background="green" path="/signup" />
-      </div>
-      <div className="button-2"
-        style={style.buttonDiv}>
-        <Button text="待会再说" background="blue" path="/search" />
-      </div>
-      <div className="footer-sigin">
-        <h3 className="footer-title"
-          style={style.footerTitle}><Link to="/signin">已有账号?</Link></h3>
-      </div>
-    </div>
-  </div>
-)
+    )
+  }
+}
 
 export default Index

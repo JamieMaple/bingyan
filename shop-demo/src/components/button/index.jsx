@@ -7,8 +7,8 @@ const color = {
   red: '#EA4F4F',
   blue: '#3B5998',
 }
-const style = {}
-style.button = {
+const _style = {}
+_style.button = {
   display: 'block',
   position: 'relative',
   height: '100%',
@@ -22,7 +22,7 @@ style.button = {
   background: color.green,
   color: '#fff'
 }
-style.link = {
+_style.link = {
   display: 'inline-block',
   position: 'absolute',
   top: '0',
@@ -30,49 +30,66 @@ style.link = {
   right: '0',
   height: '100%'
 }
+_style.disabled = {
+  background: '#919191'
+}
 
 class Button extends Component {
-  constructor(props) {
-    super(props)
-
-    this.handleClick = this.handleClick.bind(this)
-  }
-  handleClick() {
-    console.log('click happened')
-  }
   render() {
-    let { text, path, ..._style } = this.props
+    let { text, path, style, disabled, handleClick, type } = this.props
+    let link = null
 
-    switch (_style.background) {
+    if (path !== '') {
+      link = <Link to={path} style={_style.link}></Link>
+    }
+
+    if(disabled) {
+      style = {...style, ..._style.disabled}
+    }
+
+    switch (style.background) {
     case 'red':
-      _style.background = color.red
+      style.background = color.red
       break
     case 'blue':
-      _style.background = color.blue
+      style.background = color.blue
+      break
+    case 'green':
+      style.background = color.green
       break
     default:
-      _style.background = color.green
       break
     }
+
     return (
       <button
-        type="button"
-        style={Object.assign({}, style.button, _style)}
-        onClick={this.handleClick}>
-        <Link to={path} style={style.link} ></Link>
+        type={type}
+        disabled={disabled}
+        style={{..._style.button, ...style}}
+        onClick={handleClick}>
+        {link}
         {text}
       </button>
     )
   }
 }
+
 Button.propTypes = {
+  type: PropTypes.string,
   text: PropTypes.string,
-  background: PropTypes.string
+  style: PropTypes.object,
+  disabled: PropTypes.bool
 }
+
 Button.defaultProps = {
+  type: 'button',
   text: '按钮',
-  background: 'default',
-  path: '#'
+  disabled: false,
+  handleClick: function() {},
+  style: {
+    background: color.green
+  },
+  path: ''
 }
 
 export default Button

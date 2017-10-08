@@ -1,8 +1,13 @@
 import React, { Component } from 'react'
+import superagent from 'superagent'
+
+import { tokenName, tokenVerify } from '../../api'
+import cleanLocalStorage from '../../utills/cleanLocalStorage'
 
 import Mask from '../Mask'
 import Logo from '../Logo'
 import Button from '../Button'
+import Icon from '../Icon/'
 import Navigator from './nav'
 
 import style from './style'
@@ -11,7 +16,56 @@ class SideBar extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      buttons: [
+      isSignin: false,
+      token: ''
+    }
+    this.toggleShow = this.toggleShow.bind(this)
+  }
+
+  toggleShow() {
+    this.props.handleClick()
+  }
+
+  handleLogOut() {
+    const logout = window.confirm('你确定要注销么'),
+      { history } = this.props
+
+    if(logout) {
+      cleanLocalStorage()
+
+      this.setState({isSignin: false, token: ''})
+      this.toggleShow()
+      history.push('/search')
+    }
+  }
+
+  componentDidMount() {
+    const token = localStorage.getItem(tokenName)
+    if (token) {
+      superagent
+        .post(tokenVerify)
+        .send(`token=${token}`)
+        .end((err, sres) => {
+          if (err) {
+            throw err
+          }
+
+          if (sres && sres.status === 200) {
+            this.setState({
+              isSignin: true,
+              token
+            })
+          }else{
+            cleanLocalStorage()
+            alert('登录超时，请重新登录')
+          }
+        })
+    }
+  }
+
+  render() {
+    let show = {}, mask = null,
+      buttons = [
         {
           text: '登录',
           path: '/signin'
@@ -20,23 +74,31 @@ class SideBar extends Component {
           text: '注册',
           path: '/signup'
         }
-      ]
-    }
-    this.toggleShow = this.toggleShow.bind(this)
-  }
-  toggleShow() {
-    this.props.handleClick()
-  }
-  render() {
-    let show = {}, mask = null
-    let buttons = this.state.buttons.map((button, index) => (
+      ],
+      settings = (
+        <div className="settings-wrapper"
+          style={style.settingsWrapper} >
+          <span
+            onClick={() => {this.handleLogOut()}}
+            style={style.logOut} >注销</span>
+          <Icon
+            type={'settings'}
+            style={style.settings} />
+        </div>
+      )
+
+    buttons = buttons.map((button, index) => (
       <Button key={`button-${index}`}
         text={button.text}
-        flex={1}
-        background={'green'}
         path={button.path}
-        borderRadius={0} />
+        style={{
+          flex: '1',
+          background: 'green',
+          borderRadius: '0'
+        }} />
     ))
+
+
     if (this.props.showSidebar) {
       show = {transform: 'translate3d(0,0,0)', boxShadow: '0px -2px 10px rgb(7, 17, 27)', opacity: '1'}
       mask = (
@@ -58,10 +120,10 @@ class SideBar extends Component {
             style={style.logoWrapper}>
             <Logo color={'#C7C7C7'} size={'medium'} />
           </div>
-          <Navigator toggleShow={this.toggleShow} />
+          <Navigator isSignin={this.state.isSignin} toggleShow={this.toggleShow} />
           <div className="user-sign"
             style={style.buttonGroup}>
-            {buttons}
+            {this.state.isSignin ? settings : buttons}
           </div>
         </div>
         {mask}

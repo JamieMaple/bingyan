@@ -1,5 +1,7 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
+import { Link } from 'react-router-dom'
+
 import Icon from '../../components/Icon'
 
 const defaultImg = require('./img.png')
@@ -9,6 +11,7 @@ style.wrapper = {
   display: 'flex',
   alignItems: 'center',
   width: '86.8%',
+  maxWidth: '300px',
   margin: '0 auto',
   padding: '20px 0',
   fontFamily: 'HelveticaNeue'
@@ -23,17 +26,25 @@ style.info = {
   paddingLeft: '24px'
 }
 style.name = {
+  maxWidth: '180px',
   marginTop: '8px',
   lineHeight: '22px',
   fontSize: '18px',
-  fontWeight: '400'
+  fontWeight: '400',
+  whiteSpace: 'nowrap',
+  overflow: 'hidden',
+  textOverflow: 'ellipsis'
 }
 style.desc = {
+  maxWidth: '170px',
   margin: '4px 0 15px 0',
   lineHeight: '15px',
   fontSize: '14px',
   fontWeight: '200',
-  color: '#919191'
+  color: '#919191',
+  whiteSpace: 'nowrap',
+  overflow: 'hidden',
+  textOverflow: 'ellipsis'
 }
 style.price = {
   lineHeight: '20px',
@@ -48,7 +59,7 @@ style.iconControl = {
 
 class FavoriteGood extends Component {
   render() {
-    const { src, name, desc,price, index } = this.props
+    const { img, name, desc,price, index, id, location, removeFavorite } = this.props
     const _style = (index !== 0 ? { borderTop: '1px solid #C7C7C7' } : {})
 
     return (
@@ -56,9 +67,17 @@ class FavoriteGood extends Component {
         style={Object.assign({}, style.wrapper, _style)}>
         <div className="img-wrapper"
           style={style.imgWrapper}>
-          <img src={src}
-            alt="food" width="84" height="88"
-          />
+          <Link 
+            to={{
+              pathname: `/good/${id}`,
+              state: {previousPath: location.pathname}
+            }}
+            style={{display: 'inline-block'}} >
+            <img
+              src={img}
+              alt="food" width="84" height="88"
+            />
+          </Link>
         </div>
         <div className="info"
           style={style.info}>
@@ -70,7 +89,10 @@ class FavoriteGood extends Component {
             style={style.price}>￥{price}</h3>
           <div className="icon-control"
             style={style.iconControl}>
-            <Icon type={'fullheart'} color="#EA4F4F" />
+            <Icon
+              type={'fullheart'}
+              handleClick={removeFavorite}
+              style={{color: '#EA4F4F'}} />
           </div>
         </div>
       </div>

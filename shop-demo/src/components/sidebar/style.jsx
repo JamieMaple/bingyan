@@ -58,6 +58,20 @@ style.buttonGroup = {
   height: '60px',
   overflow: 'hidden'
 }
+style.settingWrapper = {
+  fontSize: '16px'
+}
+style.logOut = {
+  display: 'inline-block',
+  position: 'absolute',
+  left: '40px',
+  padding: '5px'
+}
+style.settings = {
+  position: 'absolute',
+  right: '40px',
+  padding: '5px'
+}
 
 
 export default style

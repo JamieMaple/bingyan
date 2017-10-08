@@ -10,18 +10,19 @@ const iconGrop = {
   lineheart: 'ion-ios-heart-outline',
   bag: 'ion-bag',
   cart: 'ion-ios-cart',
+  settings: 'ion-gear-b',
   search: 'ion-ios-search-strong',
   categories: 'ion-ios-pricetags-outline',
   favorite: 'ion-ios-heart-outline'
 }
-const style = {
+const _style = {
   padding: '0 5px'
 }
 
-const Icon = ({type, handleClick, ..._style}) => (
+const Icon = ({type, handleClick, style}) => (
   <i className={iconGrop[type]}
     onClick={handleClick}
-    style={Object.assign({}, style, _style)}></i>
+    style={Object.assign({}, _style, style)}></i>
 )
 Icon.defaultProps = {
   type: 'nav'

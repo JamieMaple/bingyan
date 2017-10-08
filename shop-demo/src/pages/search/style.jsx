@@ -52,11 +52,16 @@ style.iconStyle = {
   fontSize: '16px',
   fontWeight: 'bold'
 }
+style.form = {
+  display: 'inline-block',
+  width: '90%',
+  marginLeft: '5px',
+  fontSize: '0'
+}
 style.inputStyle = {
   height: '18px',
-  width: '90%',
+  width: '100%',
   lineHeight: '18px',
-  marginLeft: '5px',
   fontSize: '14px',
   fontWeight: '100',
   verticalAlign: 'baseline'

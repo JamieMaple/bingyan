@@ -1,7 +1,12 @@
 import React, { Component } from 'react'
+import { Scrollbars } from 'react-custom-scrollbars'
+import superagent from 'superagent'
+
+import { categoriesAPI } from '../../api'
 
 import Header from  '../../components/Header'
 import Category from './category'
+import Loader from '../../components/Loader/'
 
 const style = {}
 style.body = {
@@ -13,73 +18,46 @@ class Categories extends Component {
     super(props)
 
     this.state = {
-      items: [
-        {
-          id: '12394',
-          title: '分类1',
-          desc: 'description'
-        },
-        {
-          id: '22394',
-          title: '分类2',
-          desc: 'description'
-        },
-        {
-          id: '12354',
-          title: '分类3',
-          desc: 'description'
-        },
-        {
-          id: '15394',
-          title: '分类4',
-          desc: 'description'
-        },
-        {
-          id: '12364',
-          title: '分类5',
-          desc: 'description'
-        },
-        {
-          id: '12994',
-          title: '分类6',
-          desc: 'description'
-        },
-        {
-          id: '10394',
-          title: '分类7',
-          desc: 'description'
-        },
-        {
-          id: '09394',
-          title: '分类8',
-          desc: 'description'
-        },
-        {
-          id: '12390',
-          title: '分类9',
-          desc: 'description'
-        }
-      ]
+      isLoading: true,
+      categories: []
     }
   }
+  componentDidMount() {
+    superagent
+      .get(categoriesAPI)
+      .end((err, sres) => {
+        if (err) {
+          console.log(err)
+        }
+        const resText = sres.body
+        this.setState({categories: resText, isLoading: false})
+      })
+  }
   render() {
-    const categories = this.state.items.map((item, index) => (
+    const categories = this.state.categories.map((category, index) => (
       <Category
-        key={`category-${index.toString()}`}
-        match={{params: {id: item.id}, url: '/categories'}}
-        title={item.title}
-        desc={item.desc}
+        key={category._id}
+        id={category.id}
+        title={category.name}
+        desc={category.description}
         style={{borderBottom: 'none'}} />
     ))
     return (
       <div className="categories-wrapper">
-        <Header text={'分类'} boxShadow={'0px 1px 5px #919191'} />
-        <div className="body-wrapper"
-          style={style.body}>
-          {categories}
-        </div>
+        <Header text={'分类'}
+          style={{
+            boxShadow: '0px 1px 5px #919191'
+          }} />
+        <Scrollbars style={{height: '100vh'}}>
+          <div className="body-wrapper"
+            style={style.body}>
+            {categories}
+          </div>
+        </Scrollbars>
+        {this.state.isLoading ? <Loader style={{position: 'absolute', top: '20%', left: '0', right: '0'}} /> : null}
       </div>
     )
   }
 }
+
 export default Categories
