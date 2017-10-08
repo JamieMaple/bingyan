@@ -2,6 +2,11 @@ const express = require('express')
 const mongoose = require('mongoose')
 const cors = require('cors')
 const bodyParser = require('body-parser')
+<<<<<<< HEAD
+=======
+
+const cookeParser = require('cookie-parser')
+>>>>>>> 55eef819992c632ae0b6254ae29d3d263d1d9386
 const jwt = require('jsonwebtoken')
 
 // models
@@ -23,6 +28,20 @@ app.use('/api', api)
 app.use('/', user)
 
 app.use('/auth', auth)
+
+app.post('/api/login', (req, res) => {
+  if(!req.body.username) {
+    res.sendStatus(400)
+    return
+  }
+
+  if(!req.body.password) {
+    res.sendStatus(400)
+    return
+  }
+
+  res.json({data: 'protectced'})
+})
 
 const APP_PORT = 3001
 
