@@ -1,7 +1,9 @@
 import React, { Component } from 'react'
 import { Link } from 'react-router-dom'
+import superagent from 'superagent'
 
-import { tokenName } from '../../api'
+import { tokenName, tokenVerify } from '../../api'
+import cleanLocalStorage from '../../utills/cleanLocalStorage'
 
 import BackgroundImg from '../../components/BackgroundImg'
 import Mask from '../../components/Mask'
@@ -47,8 +49,18 @@ class Index extends Component {
 
   componentDidMount() {
     const history = this.props.history
-    if (localStorage.getItem(tokenName)) {
-      history.push('/search')
+    const token = localStorage.getItem(tokenName)
+    if(token) {
+      superagent
+        .post(tokenVerify)
+        .send(`token=${token}`)
+        .end((err, sres) => {
+          if (sres.status === 200) {
+            history.push('/search')
+          }else{
+            cleanLocalStorage()
+          }
+        })
     }
   }
 

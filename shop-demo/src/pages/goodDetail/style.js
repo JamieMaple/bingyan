@@ -102,5 +102,8 @@ style.button = {
   borderRadius: '0',
   marginBottom: '15px'
 }
+style.favoriteIcon = {
+  color: '#EA4F4F'
+}
 
 export default style

@@ -6,7 +6,8 @@ import Mask from '../../components/Mask'
 import Icon from '../../components/Icon'
 import Button from '../../components/Button'
 
-import { goodsAPI, tokenName } from '../../api'
+import { goodsAPI, tokenName, favorite, cart,tokenVerify, type as sendType } from '../../api'
+import cleanLocalStorage from '../../utills/cleanLocalStorage'
 
 import style from './style'
 
@@ -14,7 +15,7 @@ const ADD_TO_FAVORITE = 0,
   BUY_NOW = 1,
   ADD_TO_CART = 2
 
-const Header = ({ name, goBack, addToFavorite }) => (
+const Header = ({ name, goBack, addToFavorite, isFavorite }) => (
   <div className="header"
     style={style.header.header}>
     <Icon 
@@ -26,7 +27,11 @@ const Header = ({ name, goBack, addToFavorite }) => (
     <Icon
       type={'fullheart'}
       handleClick={() => {addToFavorite(ADD_TO_FAVORITE)}}
-      style={{...style.header.icon, right: '10px'}} />
+      style={
+        isFavorite 
+          ? {...style.header.icon, right: '10px', ...style.favoriteIcon}
+          : {...style.header.icon, right: '10px'}
+      } />
   </div>
 )
 
@@ -37,16 +42,16 @@ class GoodDetail extends Component {
     this.state = {
       id: location.pathname.split('/')[2],
       quantity: 1,
+      isFavorite: false,
       ...location.state
     }
   }
 
   componentDidMount() {
-    let { state } = this.props.location
+    let { state } = this.props.location,
+      { id } = this.state
 
-    let { id } = this.state
-
-    if (!state) {
+    if (!state.img && !state.name && !state.description) {
       superagent
         .get(goodsAPI)
         .query({id})
@@ -56,31 +61,104 @@ class GoodDetail extends Component {
           this.setState({...sres.body[0]})
         })
     }
+
+    // check for favorite
+    const token = localStorage.getItem(tokenName)
+    if (token) {
+      superagent
+        .post(favorite)
+        .send(`token=${token}`)
+        .send(`type=${sendType.ALL}`)
+        .end((err, sres) => {
+          if (err){
+            throw err            
+          }else{
+            const { favorite } = sres.body
+
+            if(favorite.indexOf(id) > -1) {
+              this.setState({isFavorite: true})
+            }
+          }
+        })
+    }
   }
 
   selectQuantity(e) {
     this.setState({quantity: e.target.value})
   }
 
-  handleClickEntry(event) {
-    const { history } = this.props
+  handleClickEntry(eventType) {
+    const { history } = this.props,
+      token = localStorage.getItem(tokenName)
 
-    if (!localStorage.getItem(tokenName)) {
-      window.confirm('还没有登录？是否登录') && history.push('/signin')
+    if(token){
+      superagent
+        .post(tokenVerify)
+        .send(`token=${token}`)
+        .end((err, sres) => {
+          if(sres.status !== 200) {
+            cleanLocalStorage()
+            window.confirm('登录失效，是否重新登录') && history.push('/signin')      
+          }else{
+            switch (eventType){
+            case ADD_TO_FAVORITE: 
+              this.handleAddToFavorite(token)
+              break
+            case BUY_NOW:
+              this.handleClickBuy()
+              break
+            case ADD_TO_CART:
+              this.handleAddToCart(token)
+              break
+            default:
+              break
+            }
+          }
+        })
+    }else{
+      window.confirm('还没有登录，是否登录') && history.push('/signin')
     }
   }
 
-  handleClickBuy() {
+  handleAddToFavorite(token) {
+    const { isFavorite, id } = this.state,
+      type = isFavorite ? sendType.DELETE : sendType.ADD
 
+    superagent
+      .post(favorite)
+      .send(`token=${token}`)
+      .send(`type=${type}`)
+      .send(`goodid=${id}`)
+      .end((err, sres) => {
+        this.setState({isFavorite: !isFavorite})
+      })
+  }
+
+  handleClickBuy() {
+    const { price, quantity } = this.state
+    alert(`一共￥${(price * quantity).toFixed(2)}`)
   }
   
-  handleAddToCart() {
-
+  handleAddToCart(token) {
+    const goodid = this.state.id
+    superagent
+      .post(cart)
+      .send(`token=${token}`)
+      .send(`type=${sendType.ADD_TO_CART}`)
+      .send(`goodid=${goodid}`)
+      .end((err, sres) => {
+        if(err) {
+          throw err
+        }else{
+          alert('添加成功')
+        }
+      })
   }
 
   render() {
     const { history } = this.props,
-      { name, description, img, price, quantity } = this.state,
+      {previousPath = '/search'} = this.props.location.state,
+      { name, description, img, price, quantity, isFavorite } = this.state,
       options = [1,2,3,4,5,6,7,8,9,10].map((value, index) => (
         <option
           key={`option-${value}`}
@@ -92,15 +170,16 @@ class GoodDetail extends Component {
       <div className="detail-wrapper"
         style={style.wrapper}>
         <Mask
-          handleClick={() => {history.goBack()}}
+          handleClick={() => {history.push(previousPath)}}
           position={'fixed'}
           zIndex={'20'}
           overflow={'hidden'}
           opacity=".4" />
         <Header
           name={name}
+          isFavorite={isFavorite}
           addToFavorite={this.handleClickEntry.bind(this)}
-          goBack={() => {history.goBack()}} />
+          goBack={() => {history.push(previousPath)}} />
         <Scrollbars style={style.body}>
           <div className="img-group"
             style={style.imgGroup}>

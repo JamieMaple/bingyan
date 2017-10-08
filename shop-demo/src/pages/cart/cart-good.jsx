@@ -23,10 +23,14 @@ style.info = {
   paddingLeft: '24px'
 }
 style.name = {
+  width: '170px',
   marginTop: '8px',
   lineHeight: '22px',
   fontSize: '18px',
-  fontWeight: '400'
+  fontWeight: '400',
+  whiteSpace: 'nowrap',
+  textOverflow: 'ellipsis',
+  overflow: 'hidden'
 }
 style.price = {
   position: 'absolute',
@@ -43,16 +47,45 @@ style.iconControl = {
 }
 
 class CartGood extends Component {
+  constructor(props) {
+    super(props)
+    this.state = {
+      id: this.props.id,
+      price: this.props.price,
+      quantity: 1
+    }
+  }
+
+  handleQuantity(symbol) {
+    let { quantity, price, id } = this.state
+    if (symbol === '+') {
+      quantity = quantity + 1
+      this.setState({quantity})
+      this.props.handleTotalPrice(price * quantity, id)
+    }else{
+      if (quantity === 1) {
+        let isDelted = window.confirm('是否删除出购物车')
+        if(!isDelted) {
+          return
+        }
+      }
+      quantity = quantity - 1
+      this.setState({quantity})
+      this.props.handleTotalPrice(price * quantity, id)
+    }
+  }
+
   render() {
-    const { src, name,price, index } = this.props
-    const _style = (index !== 0 ? { borderTop: '1px solid #C7C7C7' } : {})
+    const { img, name, price, index } = this.props,
+      { quantity } = this.state,
+      _style = (index !== 0 ? { borderTop: '1px solid #C7C7C7' } : {})
 
     return (
       <div className="favorite-good-wrapper"
         style={Object.assign({}, style.wrapper, _style)}>
         <div className="img-wrapper"
           style={style.imgWrapper}>
-          <img src={src}
+          <img src={img}
             alt="food" width="84" height="88"
           />
         </div>
@@ -64,7 +97,9 @@ class CartGood extends Component {
             style={style.price}>￥{price.toFixed(2)}</h3>
           <div className="num-control"
             style={style.iconControl}>
-            <NumberControl />
+            <NumberControl
+              handleQuantity={this.handleQuantity.bind(this)}
+              quantity={quantity} />
           </div>
         </div>
       </div>

@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
+import superagent from 'superagent'
 
-import { tokenName } from '../../api'
+import { tokenName, tokenVerify } from '../../api'
 import cleanLocalStorage from '../../utills/cleanLocalStorage'
 
 import Mask from '../Mask'
@@ -31,7 +32,7 @@ class SideBar extends Component {
 
     if(logout) {
       cleanLocalStorage()
-      
+
       this.setState({isSignin: false, token: ''})
       this.toggleShow()
       history.push('/search')
@@ -41,10 +42,24 @@ class SideBar extends Component {
   componentDidMount() {
     const token = localStorage.getItem(tokenName)
     if (token) {
-      this.setState({
-        isSignin: true,
-        token
-      })
+      superagent
+        .post(tokenVerify)
+        .send(`token=${token}`)
+        .end((err, sres) => {
+          if (err) {
+            throw err
+          }
+
+          if (sres && sres.status === 200) {
+            this.setState({
+              isSignin: true,
+              token
+            })
+          }else{
+            cleanLocalStorage()
+            alert('登录超时，请重新登录')
+          }
+        })
     }
   }
 
@@ -66,7 +81,7 @@ class SideBar extends Component {
           <span
             onClick={() => {this.handleLogOut()}}
             style={style.logOut} >注销</span>
-          <Icon 
+          <Icon
             type={'settings'}
             style={style.settings} />
         </div>

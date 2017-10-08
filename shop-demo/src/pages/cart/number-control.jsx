@@ -28,10 +28,12 @@ class NumberControl extends Component {
     this.state = {
       buttons: [
         {
+          field: '-',
           type: 'minus',
           color: '#EA4F4F'
         },
         {
+          field: '+',
           type: 'plus',
           color: '#0D9F67'
         }
@@ -39,21 +41,27 @@ class NumberControl extends Component {
     }
   }
   render() {
-    const buttons = this.state.buttons.map((button, index) => (
-      <Icon 
-        key={`button-${index}`}
-        type={button.type}
-        style={{...style.button, color: button.color}} />
-    ))
+    const { quantity, handleQuantity } = this.props,
+      buttons = this.state.buttons.map((button, index) => (
+        <Icon 
+          key={`button-${index}`}
+          type={button.type}
+          handleClick={() => {handleQuantity(button.field)}}
+          style={{...style.button, color: button.color}} />
+      ))
     return (
       <div className="number-control"
         style={style.wrapper}>
         {buttons[0]}
-        <span style={style.number}>2</span>
+        <span style={style.number}>{quantity}</span>
         {buttons[1]}
       </div>
     )
   }
+}
+
+NumberControl.defaultProps = {
+  quantity: 1
 }
 
 export default NumberControl

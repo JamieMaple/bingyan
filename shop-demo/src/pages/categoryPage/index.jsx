@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import superagent from 'superagent'
 import { Scrollbars } from 'react-custom-scrollbars'
 
-import { goodsAPI } from '../../api'
+import { goodsAPI, categoriesAPI } from '../../api'
 
 import Icon from '../../components/Icon/index'
 import Good from '../../components/Good'
@@ -53,12 +53,11 @@ const Body = ({goods, handleAjaxSend, perPage, isLoading, history}) => {
 class CategoryPage extends Component {
   constructor(props) {
     super(props)
-    let { state } = this.props.location
 
     this.state = {
       id: this.props.match.params.id,
-      name: state.title,
-      description: state.desc,
+      name: '',
+      description: '',
       page: 0,
       perPage: 20,
       requestNum: 0,
@@ -122,7 +121,21 @@ class CategoryPage extends Component {
   }
 
   componentDidMount() {
+    const { id } = this.state
+
     this.handleAjaxSend()
+
+    superagent
+      .get(categoriesAPI)
+      .query({category: id})
+      .end((err, sres) => {
+        if (err) {
+          throw err
+        }else{
+          const {name, description} = sres.body[0]
+          this.setState({name, description})
+        }
+      })
   }
 
 
@@ -143,7 +156,7 @@ class CategoryPage extends Component {
         <Header
           name={name}
           description={description}
-          handleBack={() => {history.goBack()}} />
+          handleBack={() => {history.push('/categories')}} />
         <Body 
           goods={goods}
           perPage={perPage}
