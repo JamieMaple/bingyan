@@ -1,6 +1,8 @@
 import React from 'react'
 
 import Icon from '../Icon'
+import AnimateTransition from '../../components/AnimateTransition'
+
 const _style = {}
 _style.header = {
   position: 'fixed',
@@ -28,19 +30,24 @@ _style.icon = {
   position: 'absolute',
   bottom: '0',
   left: '15px',
-  fontSize: '22px',
+  fontSize: '18px',
   fontWeight: '200'
 }
 
-const Header = ({text, icon, handleClick, style}) => {
+const Header = ({text, icon, handleClick, style, show}) => {
   let title = null
   if(text) {
     title = <h1 className="title" style={_style.title}>{text}</h1>
   }
   return (
     <div className="header"
-      style={Object.assign({}, _style.header, style)}>
-      {title}
+      style={{..._style.header, ...style, fontSize: show ? 20 : 0}}>
+      <AnimateTransition
+        in={show}
+        classNames="slide-right-left-short"
+      >
+        {title}
+      </AnimateTransition>
       <span style={_style.icon}>
         <Icon type={icon} handleClick={handleClick} />
       </span>

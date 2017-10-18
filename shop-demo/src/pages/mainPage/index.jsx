@@ -10,12 +10,14 @@ import CategoryPage from '../categoryPage/index'
 import GoodDetail from '../goodDetail'
 import Favorite from '../favorite'
 import Cart from '../cart'
+import UserInfo from '../userInfo'
 
 const style = {}
 style.header = {
   position: 'absolute',
   left: '15px',
-  top: '18px'
+  top: '15px',
+  padding: '5px'
 }
 
 class MainPage extends Component {
@@ -61,6 +63,7 @@ class MainPage extends Component {
             <Route path="/category/:id" component={CategoryPage} />
             <Route path="/favorite" component={Favorite} />
             <Route path="/cart" component={Cart} />
+            <Route path="/userinfo" component={UserInfo} />
           </Switch>
           {isGoodDetail ? <Route path="/good/:id" component={GoodDetail} /> : null}
         </div>

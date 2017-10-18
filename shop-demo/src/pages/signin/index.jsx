@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import { Link } from 'react-router-dom'
 import superagent from 'superagent'
 
 import Header from '../../components/Header'
@@ -30,11 +31,21 @@ style.input = {
   borderRadius: '3px',
   color: '#0D9F67'
 }
+style.others = {
+  display: 'flex',
+  color: '#0D9F67',
+  marginTop: '10px',
+  fontSize: '14px'
+}
+style.othersEach = {
+  flex: '1'
+}
 
 class SignIn extends Component {
   constructor() {
     super()
     this.state = {
+      show: false,
       username: '',
       password: '',
       isSubmit: false
@@ -42,8 +53,9 @@ class SignIn extends Component {
   }
 
   componentDidMount() {
+    this.setState({show: true})
     if(localStorage.getItem(tokenName)) {
-      this.props.history.goBack()
+      this.props.history.push('/search')
     }
   }
 
@@ -77,12 +89,13 @@ class SignIn extends Component {
 
   render() {
     const { history } = this.props,
-      { password, username, isSubmit } = this.state
+      { password, username, isSubmit, show } = this.state
 
     return (
       <div className="sign-in-wrapper">
         <Header
           text={'登录'}
+          show={show}
           icon={'cross'}
           handleClick={() => {history.goBack()}}
         />
@@ -115,6 +128,11 @@ class SignIn extends Component {
               style={{
                 padding: '14px 0'
               }} />
+            <div className="others"
+              style={style.others}>
+              <Link to='/signup'><span className="siginup" style={{...style.othersEach}}>没有账号?</span></Link>
+              <span className="forget-password" style={{...style.othersEach, textAlign: 'right'}}>忘记密码</span>
+            </div>
           </form>
         </div>
       </div>

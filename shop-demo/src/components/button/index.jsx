@@ -20,7 +20,8 @@ _style.button = {
   outline: 'none',
   fontSize: '15px',
   background: color.green,
-  color: '#fff'
+  color: '#fff',
+  transition: 'background .3s ease-in-out'
 }
 _style.link = {
   display: 'inline-block',

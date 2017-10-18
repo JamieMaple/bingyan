@@ -1,3 +1,5 @@
+import selectImg from './select-bg.png'
+
 const style = {}
 style.wrapper = {
   position: 'absolute',
@@ -10,9 +12,9 @@ style.wrapper = {
 style.body = {
   position: 'fixed',
   top: '50%',
-  left: '2.5%',
-  right: '2.5%',
-  width: '95%',
+  left: '5%',
+  right: '5%',
+  width: '90%',
   transform: 'translateY(-50%)',
   height: '95%',
   margin: '0 auto',
@@ -24,8 +26,8 @@ style.header = {
   header: {
     position: 'fixed',
     top: '2.5%',
-    left: '2.5%',
-    width: '95%',
+    left: '5%',
+    width: '90%',
     zIndex: '40',
     color: '#fff'
   },
@@ -52,6 +54,7 @@ style.imgGroup = {
   zIndex: '-10'
 }
 style.img = {
+  height: '280px',
   width: '100%'
 }
 style.description = {
@@ -61,25 +64,30 @@ style.description = {
   color: '#919191'
 }
 style.priceQuantity = {
+  display: 'flex',
   width: '100%',
-  height: '100px',
+  height: '90px',
   borderTop: '1px solid #C1C1C1',
   borderBottom: '1px solid #C1C1C1'
 }
 style.boxCommon = {
+  flex: '1',
   display: 'inline-block',
   height: '100%',
-  width: '50%',
   color: '#666666'
 }
 style.boxTitle = {
+  flex: '1',
   textAlign: 'center',
   margin: '14px 0 14px 0',
   fontSize: '16px'
 }
 style.quantity = {
   display: 'block',
+  width: '70px',
   margin: 'auto',
+  background: `url(${selectImg}) no-repeat right`,
+  backgroundSize: '50%',
   fontSize: '24px',
   color: '#919191'
 }

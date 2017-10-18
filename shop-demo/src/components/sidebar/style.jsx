@@ -59,7 +59,7 @@ style.buttonGroup = {
   overflow: 'hidden'
 }
 style.settingWrapper = {
-  fontSize: '16px'
+  fontSize: '18px'
 }
 style.logOut = {
   display: 'inline-block',
@@ -70,7 +70,8 @@ style.logOut = {
 style.settings = {
   position: 'absolute',
   right: '40px',
-  padding: '5px'
+  padding: '5px',
+  color: '#0D9F67'
 }
 
 

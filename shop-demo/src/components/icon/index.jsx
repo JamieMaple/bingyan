@@ -13,7 +13,10 @@ const iconGrop = {
   settings: 'ion-gear-b',
   search: 'ion-ios-search-strong',
   categories: 'ion-ios-pricetags-outline',
-  favorite: 'ion-ios-heart-outline'
+  favorite: 'ion-ios-heart-outline',
+  male: 'ion-male',
+  female: 'ion-female',
+  unknowGender: 'ion-transgender'
 }
 const _style = {
   padding: '0 5px'

@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import { Link } from 'react-router-dom'
 import superagent from 'superagent'
 
 import { tokenName, tokenVerify } from '../../api'
@@ -81,9 +82,11 @@ class SideBar extends Component {
           <span
             onClick={() => {this.handleLogOut()}}
             style={style.logOut} >注销</span>
-          <Icon
-            type={'settings'}
-            style={style.settings} />
+          <Link to='/userinfo'>
+            <Icon
+              type={'settings'}
+              style={style.settings} />
+          </Link>
         </div>
       )
 

@@ -3,6 +3,8 @@ import { Link } from 'react-router-dom'
 
 import Mask from '../../components/Mask'
 
+import AnimateTransition from '../../components/AnimateTransition'
+
 const style = {}
 
 style.wrapper = {
@@ -40,33 +42,38 @@ style.title2 = Object.assign({}, style.title1, {
   fontWeight: '100'
 })
 
-const Category = ({id, title, desc, src, history}) => (
-  <div className="category-wrapper"
-    style={style.wrapper}>
-    <div className="background-group"
-      style={style.commonWrapper}>
-      <Mask opacity={'.5'} />
-      <Link 
-        to={{
-          pathname: `/category/${id}`,
-          state: {id, title, desc}
-        }}
-        style={{
-          display: 'block',
-          position: 'absolute',
-          left: '0',
-          right: '0',
-          top: '0',
-          bottom: '0',
-          zIndex: '10'
-        }}
-      />
+const Category = ({id, title, desc, src, show}) => (
+  <AnimateTransition
+    in={show}
+    classNames="slide-right-left"
+  >
+    <div className="category-wrapper"
+      style={{...style.wrapper, display : show ? 'block' : 'none'}}>
+      <div className="background-group"
+        style={style.commonWrapper}>
+        <Mask opacity={'.5'} />
+        <Link 
+          to={{
+            pathname: `/category/${id}`,
+            state: {id, title, desc}
+          }}
+          style={{
+            display: 'block',
+            position: 'absolute',
+            left: '0',
+            right: '0',
+            top: '0',
+            bottom: '0',
+            zIndex: '10'
+          }}
+        />
+      </div>
+      <div className="title-group">
+        <h1 style={style.title1}>{title}</h1>
+        <h2 style={style.title2}>{desc}</h2>
+      </div>
     </div>
-    <div className="title-group">
-      <h1 style={style.title1}>{title}</h1>
-      <h2 style={style.title2}>{desc}</h2>
-    </div>
-  </div>
+  </AnimateTransition>
 )
 Category.defaultProps = {
   title: '分类',

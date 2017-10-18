@@ -1,25 +1,28 @@
-const mainURL = 'http://10.146.100.135'
+const url = 'http://localhost'
 const port = '3001'
 
-export const tokenVerify = `${mainURL}:${port}/auth`
+const mainURL = `${url}:${port}`
+
+export const tokenVerify = `${mainURL}/auth`
 
 export const type = {
   ADD: 1,
   DELETE: 2,
   ALL: 3,
+  GET_INFO: 3,
   ADD_TO_CART : 4,
   BUY: 5,
   other: 10
 }
 
-export const favorite = `${mainURL}:${port}/auth/favorite`
-export const cart = `${mainURL}:${port}/auth/cart`
-export const userInfo = `${mainURL}:${port}/auth/info`
+export const favorite = `${mainURL}/auth/favorite`
+export const cart = `${mainURL}/auth/cart`
+export const userInfo = `${mainURL}/auth/info`
 
-export const signIn = `${mainURL}:${port}/signin`
-export const signUp = `${mainURL}:${port}/signup`
+export const signIn = `${mainURL}/signin`
+export const signUp = `${mainURL}/signup`
 
-export const categoriesAPI = `${mainURL}:${port}/api/categories`
-export const goodsAPI = `${mainURL}:${port}/api/goods`
+export const categoriesAPI = `${mainURL}/api/categories`
+export const goodsAPI = `${mainURL}/api/goods`
 
 export const tokenName = 'uid_token'

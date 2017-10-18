@@ -8,6 +8,8 @@ import Button from '../../components/Button'
 import { signUp } from '../../api'
 import {tokenName} from '../../api/index'
 
+import './style.css'
+
 const style = {}
 style.body = {
   marginTop: '55px',
@@ -43,6 +45,7 @@ class SignUp extends Component {
   constructor(props) {
     super(props)
     this.state = {
+      show: false,
       email: '',
       username: '',
       password1: '',
@@ -52,6 +55,8 @@ class SignUp extends Component {
   }
 
   componentDidMount() {
+    this.setState({show: true})
+
     if(localStorage.getItem(tokenName)) {
       this.props.history.goBack()
     }
@@ -109,7 +114,7 @@ class SignUp extends Component {
         localStorage.setItem(tokenName, sres.body.token)
 
         if (sres.status === 200) {
-          history.goBack()
+          history.push('/search')
         }
 
       })
@@ -117,27 +122,31 @@ class SignUp extends Component {
 
   render() {
     const { history } = this.props,
-      {email, username, password1, password2, isSubmit} = this.state,
+      { email, username, password1, password2, isSubmit, show } = this.state,
       items = [
         {
           field: 'email',
           text: '邮箱',
-          type: 'text'
+          type: 'text',
+          placeholder: '请输入邮箱地址'
         },
         {
           field: 'username',
           text: '用户名',
-          type: 'text'
+          type: 'text',
+          placeholder: '5-12位数字或字母或_'
         },
         {
           field: 'password1',
           text: '输入密码',
-          type: 'password'
+          type: 'password',
+          placeholder: '6-21位字母或者数字'
         },
         {
           field: 'password2',
           text: '确认密码',
-          type: 'password'
+          type: 'password',
+          placeholder: '确认密码'
         }
       ],
       itemsToDom = items.map((item, index) => (
@@ -148,6 +157,8 @@ class SignUp extends Component {
           <label style={style.text}>{item.text}</label>
           <input
             type={item.type}
+            placeholder={item.placeholder}
+            onFocus={()=>{}}
             onChange={(e) => {this.setState({[item.field]:e.target.value})}}
             style={style.input} />
         </div>
@@ -155,8 +166,9 @@ class SignUp extends Component {
 
     return (
       <div className="sign-up-wrapper">
-        <Header 
-          text={'注册'} 
+        <Header
+          text={'注册'}
+          show={show}
           icon={'arrow'} 
           handleClick={() => {history.goBack()}} />
         <div className="body"

@@ -15,8 +15,7 @@ style.headerCategoryName = {
   zIndex: '20',
   fontSize: '25px',
   fontWeight: '200',
-  background: '#C5B08E',
-  transition: 'all .2s ease'
+  background: '#C5B08E'
 }
 style.headerCategoryInfo = {
   textAlign: 'center',
