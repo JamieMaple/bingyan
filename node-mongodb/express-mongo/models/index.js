@@ -25,6 +25,7 @@ const userSchema = new Schema({
   email: String,
   username: String,
   password: String,
+  sex: Number,
   favorite: Array,
   cart: Array
 })

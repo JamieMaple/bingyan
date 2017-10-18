@@ -33,10 +33,10 @@ router.post('/info', (req, res) => {
   const uid = jwt.decode(req.body.token).uid
 
   const id = mongoose.Types.ObjectId(uid)
+  
   Users.findOne({_id: id}, (err, user) => {
-    const {email, username} = user
-
-    res.json({email, username})
+    const { email, username, sex } = user
+    res.json({email, username, sex})
   })
 })
 
