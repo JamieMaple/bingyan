@@ -1,4 +1,4 @@
-const url = 'http://localhost'
+const url = 'http://10.146.100.46'
 const port = '3001'
 
 const mainURL = `${url}:${port}`

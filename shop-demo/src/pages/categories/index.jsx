@@ -17,6 +17,8 @@ style.body = {
 }
 
 class Categories extends Component {
+  timeListeners = []
+
   constructor(props) {
     super(props)
 
@@ -40,15 +42,21 @@ class Categories extends Component {
 
         this.setState({categories: categories, isLoading: false})
 
-        categories.forEach((item1, index1) => (
-          setTimeout(() => {
-            this.setState({categories: this.state.categories.map((item2, index2) =>
+        categories.forEach((item1, index1) => {
+          const timeListener = setTimeout(() => {
+            this.setState({categories: categories.map((item2, index2) =>
               index1 >= index2 ? {...item2, show: true} : item2
             )})
           }, 100 * index1)
-        ))
+          this.timeListeners.push(timeListener)
+        })
       })
   }
+
+  componentWillUnmount() {
+    this.timeListeners.forEach(item => clearTimeout(item))
+  }
+
   render() {
     const { show } = this.state,
       categories = this.state.categories.map((category, index) => (

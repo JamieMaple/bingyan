@@ -53,7 +53,7 @@ class MainPage extends Component {
     }
   
     return (
-      <div className="page-wrapper">
+      <div className="page-wrapper" style={{position: 'relative'}}>
         {header}
         <div className="page-body">
           <Switch location={isGoodDetail ? this.previousLocation : location}>

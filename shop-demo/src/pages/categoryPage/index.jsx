@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import superagent from 'superagent'
 import { Scrollbars } from 'react-custom-scrollbars'
 
-import { goodsAPI, categoriesAPI } from '../../api'
+import { goodsAPI, categoriesAPI, favorite, tokenName, type } from '../../api'
 
 import Icon from '../../components/Icon/index'
 import Good from '../../components/Good'
@@ -45,11 +45,12 @@ const Header = ({name, description, handleBack, show}) => (
     </AnimateTransition>
   </div>
 )
-const Body = ({goods, handleAjaxSend, perPage, isLoading, history}) => {
+const Body = ({goods, favoriteGoods, handleAjaxSend, perPage, isLoading, history}) => {
   const goodsToHtml = goods.map(good => (
     <Good
       key={good._id}
       id={good._id}
+      isFavorite={favoriteGoods.indexOf(good._id) > -1}
       name={good.name}
       description={good.description}
       img={good.img}
@@ -79,6 +80,7 @@ class CategoryPage extends Component {
       perPage: 20,
       requestNum: 0,
       goods: [],
+      favoriteGoods: [],
       isLoading: true
     }
     
@@ -155,12 +157,28 @@ class CategoryPage extends Component {
           this.setState({name, description})
         }
       })
+
+    const token = localStorage.getItem(tokenName)
+
+    if (token) {
+      superagent
+        .post(favorite)
+        .send(`token=${token}`)
+        .send(`type=${type.ALL}`)
+        .end((err, sres) => {
+          if (err) {
+            throw err
+          }else{
+            this.setState({favoriteGoods: sres.body.favorite})
+          }
+        })
+    }
   }
 
 
   render(){
     const { history } = this.props
-    const { name, description, goods, show, perPage, isLoading, requestNum } = this.state
+    const { name, description, favoriteGoods, goods, show, perPage, isLoading, requestNum } = this.state
 
     let noMoreText = '没有更多了呢'
 
@@ -179,6 +197,7 @@ class CategoryPage extends Component {
           handleBack={() => {history.push('/categories')}} />
         <Body 
           goods={goods}
+          favoriteGoods={favoriteGoods}
           perPage={perPage}
           isLoading={isLoading}
           history={history}

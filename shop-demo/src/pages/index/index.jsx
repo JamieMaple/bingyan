@@ -79,7 +79,7 @@ class Index extends Component {
   render() {
     const { show } = this.state
     return (
-      <div className="index-wrapper">
+      <div className="index-wrapper" style={{position: 'relative', minHeight: '100vh'}}>
         <div className="background-group">
           <div className="mask"
             style={style.backgroundItem}>

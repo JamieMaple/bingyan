@@ -60,7 +60,7 @@
 .slide-right-left-enter.slide-right-left-enter-active {
   transform: translate3d(0, 0, 0);
   opacity: 1;
-  transition: all .3s ease;
+  transition: all .2s ease;
 }
 
 .slide-right-left-leave {
@@ -71,7 +71,7 @@
 .slide-right-left-leave.slide-right-left-leave-active {
   transform: translate3d(100%, 0, 0);
   opacity: 0.01;
-  transition: all .3s ease;
+  transition: all .2s ease;
 }
 
 /* right-left short */
