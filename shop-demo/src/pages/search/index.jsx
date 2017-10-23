@@ -92,7 +92,7 @@ class Search extends Component {
           </div>
           <div className="background-wrapper"
             style={Object.assign({}, style.backgroundItem, { zIndex: '-20'})}>
-            <BackgroundImg src={img} style={{height: '100%', width: '100%'}} />
+            <BackgroundImg img={img} style={{height: '100%', width: '100%'}} />
           </div>
         </div>
         <SearchBody 

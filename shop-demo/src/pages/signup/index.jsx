@@ -102,8 +102,7 @@ class SignUp extends Component {
       .post(signUp)
       .send(`email=${email}`)
       .send(`username=${username}`)
-      .send(`password1=${password1}`)
-      .send(`password2=${password2}`)
+      .send(`password=${password1}`)
       .end((err, sres) => {
         if (err) {
           this.setState({isSubmit: false})
@@ -116,7 +115,6 @@ class SignUp extends Component {
         if (sres.status === 200) {
           history.push('/search')
         }
-
       })
   }
 

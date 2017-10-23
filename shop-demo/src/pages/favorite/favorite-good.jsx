@@ -5,6 +5,7 @@ import { Link } from 'react-router-dom'
 import Icon from '../../components/Icon'
 
 import AnimateTransition from '../../components/AnimateTransition'
+import BackgroundImg from '../../components/BackgroundImg/index'
 
 const defaultImg = require('./img.png')
 
@@ -79,9 +80,13 @@ class FavoriteGood extends Component {
                 state: {previousPath: location.pathname}
               }}
               style={{display: 'inline-block'}} >
-              <img
-                src={img}
-                alt="food" width="84" height="88"
+              <BackgroundImg 
+                img={img}
+                style={{
+                  position: 'static',
+                  height: 84,
+                  width: '88'
+                }}
               />
             </Link>
           </div>

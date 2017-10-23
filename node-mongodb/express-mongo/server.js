@@ -3,6 +3,8 @@ const mongoose = require('mongoose')
 const cors = require('cors')
 const bodyParser = require('body-parser')
 const jwt = require('jsonwebtoken')
+const path = require('path')
+const app = express()
 
 // models
 const { Categories, Goods, Users } = require('./models')
@@ -12,33 +14,21 @@ const api = require('./routes/api')
 const user = require('./routes/user')
 const auth = require('./routes/userAction')
 
-const app = express()
-
-app.use(cors())
-
 app.use(bodyParser.urlencoded({limit: '100mb', extended: true}))
 
 app.use('/api', api)
 
-app.use('/', user)
+app.use('/user', user)
 
 app.use('/auth', auth)
 
-app.post('/api/login', (req, res) => {
-  if(!req.body.username) {
-    res.sendStatus(400)
-    return
-  }
+app.use(express.static(path.join(__dirname, 'www')))
 
-  if(!req.body.password) {
-    res.sendStatus(400)
-    return
-  }
-
-  res.json({data: 'protectced'})
+app.get('/', (req, res) => {
+  res.sendFile(path.resolve(__dirname, 'www'))
 })
 
-const APP_PORT = 3001
+const APP_PORT = 3000
 
 app.listen(APP_PORT, () => {
   console.log(`listening on the port ${APP_PORT}.`)

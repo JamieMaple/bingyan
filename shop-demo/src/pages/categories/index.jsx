@@ -66,6 +66,7 @@ class Categories extends Component {
           id={category.id}
           title={category.name}
           desc={category.description}
+          img={category.img}
         />
       ))
     

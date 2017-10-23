@@ -7,6 +7,7 @@ import { tokenName, favorite, type as sendType } from '../../api'
 import cleanLocalStorage from '../../utills/cleanLocalStorage'
 
 import Icon from '../Icon'
+import BackgroundImg from '../BackgroundImg/index'
 
 import AnimateTransition from '../../components/AnimateTransition'
 
@@ -68,7 +69,14 @@ class Good extends Component {
             style={style.name}>{name}</h1>
           <p className="good-desc"
             style={style.desc}>{description}</p>
-          <img src={img} width="130" height="130" alt={name}/>
+          <BackgroundImg
+            img={img}
+            style={{
+              position: 'static',
+              width: 130,
+              height: 130
+            }}
+          />
           <span
             style={style.price}>￥{price.toFixed(2)}</span>
           <Icon 

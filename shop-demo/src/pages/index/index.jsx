@@ -83,17 +83,16 @@ class Index extends Component {
         <div className="background-group">
           <div className="mask"
             style={style.backgroundItem}>
-            <Mask opacity={'.35'} />
+            <Mask opacity={'.3'} />
           </div>
           <div className="backgroundImg"
             style={{...style.backgroundItem, zIndex: '-20'}}>
             <BackgroundImg
-              src={bgImg}
+              img={bgImg}
               style={{
                 position: 'relative',
                 width: '100%',
-                height: '100%',
-                opacity: '.8'
+                height: '100%'
               }}/>
           </div>
         </div>

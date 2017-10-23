@@ -2,6 +2,7 @@ import React from 'react'
 import { Link } from 'react-router-dom'
 
 import Mask from '../../components/Mask'
+import BackgroundImg from '../../components/BackgroundImg/index'
 
 import AnimateTransition from '../../components/AnimateTransition'
 
@@ -42,7 +43,7 @@ style.title2 = Object.assign({}, style.title1, {
   fontWeight: '100'
 })
 
-const Category = ({id, title, desc, src, show}) => (
+const Category = ({id, title, desc, img, show}) => (
   <AnimateTransition
     in={show}
     classNames="slide-right-left"
@@ -52,6 +53,17 @@ const Category = ({id, title, desc, src, show}) => (
       <div className="background-group"
         style={style.commonWrapper}>
         <Mask opacity={'.5'} />
+        <BackgroundImg
+          img={img}
+          style={{
+            position: 'absolute',
+            top: '50%',
+            transform: 'translateY(-50%)',
+            width: '100%',
+            minHeight: '100%',
+            zIndex: -5,
+          }} 
+        />
         <Link 
           to={{
             pathname: `/category/${id}`,
@@ -78,7 +90,7 @@ const Category = ({id, title, desc, src, show}) => (
 Category.defaultProps = {
   title: '分类',
   desc: '暂无介绍',
-  src: ''
+  img: ''
 }
 
 export default Category

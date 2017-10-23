@@ -1,7 +1,12 @@
-const url = 'http://localhost'
-const port = '3001'
+let mainURL
+const url = ''
+const port = null
 
-const mainURL = `${url}:${port}`
+if (port) {
+  mainURL = `${url}:${port}`
+} else {
+  mainURL = url
+}
 
 export const tokenVerify = `${mainURL}/auth`
 
@@ -12,17 +17,22 @@ export const type = {
   GET_INFO: 3,
   ADD_TO_CART : 4,
   BUY: 5,
-  other: 10
+  OTHER: 10
 }
 
 export const favorite = `${mainURL}/auth/favorite`
 export const cart = `${mainURL}/auth/cart`
 export const userInfo = `${mainURL}/auth/info`
+// todo changeInfo
+export const changeInfo = `${mainURL}/auth/changeInfo`
 
-export const signIn = `${mainURL}/signin`
-export const signUp = `${mainURL}/signup`
+export const signIn = `${mainURL}/user/signin`
+export const signUp = `${mainURL}/user/signup`
+// todo forget password
+export const forgetPassword = `${mainURL}/user/forget`
 
 export const categoriesAPI = `${mainURL}/api/categories`
 export const goodsAPI = `${mainURL}/api/goods`
+
 
 export const tokenName = 'uid_token'

@@ -3,6 +3,7 @@ import PropTypes from 'prop-types'
 import NumberControl from './number-control'
 
 import AnimateTransition from '../../components/AnimateTransition'
+import BackgroundImg from '../../components/BackgroundImg/index'
 
 const defaultImg = require('./img.png')
 
@@ -91,8 +92,13 @@ class CartGood extends Component {
           style={{...style.wrapper, ..._style, display: show ? 'flex' : 'none'}}>
           <div className="img-wrapper"
             style={style.imgWrapper}>
-            <img src={img}
-              alt="food" width="84" height="88"
+            <BackgroundImg
+              img={img}
+              style={{
+                position: 'static',
+                width: 84,
+                height: 88
+              }}
             />
           </div>
           <div className="info"
