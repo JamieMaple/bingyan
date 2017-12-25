@@ -1,5 +1,4 @@
 import React, { Component } from 'react'
-import { Scrollbars } from 'react-custom-scrollbars'
 import superagent from 'superagent'
 
 import { tokenName, cart, type } from '../../api'
@@ -13,8 +12,12 @@ import NoMore from '../../components/NoMore'
 
 const style = {}
 style.body = {
-  height: '100vh',
-  margin: '55px 0 0 0'
+  position: 'absolute',
+  top: '0',
+  left: '0',
+  right: '0',
+  padding: '60px 0',
+  overflow: 'hidden'
 }
 style.footer = {
   position: 'fixed',
@@ -28,6 +31,7 @@ class Cart extends Component {
   constructor(props) {
     super(props)
     this.state = {
+      show: false,
       isLoading: true,
       items: [],
       totalPrice: 0
@@ -78,13 +82,15 @@ class Cart extends Component {
   componentDidMount() {
     const token = localStorage.getItem(tokenName)
 
+    this.setState({show: true})
+
     if (token) {
       superagent
         .post(cart)
         .send(`token=${token}`)
         .end((err, sres) => {
           if (sres && sres.status === 200) {
-            const { cart } = sres.body
+            const cart = sres.body.cart.map(item => ({...item, show: false}))
             let totalPrice = 0
 
             cart.forEach((item) => {
@@ -98,6 +104,15 @@ class Cart extends Component {
               items: cart.map((item => {return{ ...item, quantity: 1, totalPrice: 1 * item.price}})),
               totalPrice
             })
+            
+            cart.forEach((item1, index1) => {
+              setTimeout(() => {
+                this.setState({items: this.state.items.map(
+                  (item2, index2) =>
+                    index1 >= index2 ? {...item2, show: true} : item2)}
+                )
+              }, 100 * index1)
+            })
           }else{
             cleanLocalStorage()
             alert('登录超时，请重新登录')
@@ -110,10 +125,11 @@ class Cart extends Component {
   }
 
   render() {
-    const { totalPrice, isLoading, items } = this.state,
+    const { totalPrice, isLoading, items, show } = this.state,
       itemsToDom = items.map((item, index) => (
         <CartGood
           key={item._id}
+          show={item.show}
           id={item._id}
           index={index}
           name={item.name}
@@ -123,28 +139,26 @@ class Cart extends Component {
       ))
 
     return (
-      <div className="cart-wrapper"
-        style={{minHeight: '100vh'}}>
+      <div className="cart-wrapper">
         <Header
           text={'购物车'}
+          show={show}
           style={{
             boxShadow: '0px 1px 5px #919191'
           }} />
         <div className="cart-body"
           style={style.body}>
-          <Scrollbars style={{height: '100vh', marginBottom: '50px'}}>
-            {isLoading ? <Loader /> : null}
-            {!isLoading && items.length === 0
-              ? <NoMore
-                text={'购物车空空如也'}
-                WrapperStyle=
-                  {{
-                    marginLeft: 'auto',
-                    marginRight: 'auto'
-                  }} />
-              : null}
-            {itemsToDom}
-          </Scrollbars>
+          {isLoading ? <Loader /> : null}
+          {!isLoading && items.length === 0
+            ? <NoMore
+              text={'购物车空空如也'}
+              WrapperStyle=
+                {{
+                  marginLeft: 'auto',
+                  marginRight: 'auto'
+                }} />
+            : null}
+          {itemsToDom}
         </div>
         <div className="cart-footer"
           style={style.footer}>

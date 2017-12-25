@@ -1,4 +1,5 @@
 const mongoose = require('mongoose')
+const crypto = require('crypto')
 
 mongoose.connect('mongodb://localhost/Shop', {
   useMongoClient: true
@@ -25,11 +26,17 @@ const userSchema = new Schema({
   email: String,
   username: String,
   password: String,
+  sex: Number,
   favorite: Array,
   cart: Array
 })
 
 userSchema.methods.comparePassword = function(reqPassword) {
+  reqPassword = crypto
+    .createHmac('sha256', reqPassword)
+    .update('utf8')
+    .digest('base64')
+
   return reqPassword === this.password
 }
 

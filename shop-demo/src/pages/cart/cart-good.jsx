@@ -2,6 +2,9 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import NumberControl from './number-control'
 
+import AnimateTransition from '../../components/AnimateTransition'
+import BackgroundImg from '../../components/BackgroundImg/index'
+
 const defaultImg = require('./img.png')
 
 const style = {}
@@ -76,33 +79,43 @@ class CartGood extends Component {
   }
 
   render() {
-    const { img, name, price, index } = this.props,
+    const { img, name, price, index, show } = this.props,
       { quantity } = this.state,
       _style = (index !== 0 ? { borderTop: '1px solid #C7C7C7' } : {})
 
     return (
-      <div className="favorite-good-wrapper"
-        style={Object.assign({}, style.wrapper, _style)}>
-        <div className="img-wrapper"
-          style={style.imgWrapper}>
-          <img src={img}
-            alt="food" width="84" height="88"
-          />
-        </div>
-        <div className="info"
-          style={style.info}>
-          <h1 className="title"
-            style={style.name}>{name}</h1>
-          <h3 className="price"
-            style={style.price}>￥{price.toFixed(2)}</h3>
-          <div className="num-control"
-            style={style.iconControl}>
-            <NumberControl
-              handleQuantity={this.handleQuantity.bind(this)}
-              quantity={quantity} />
+      <AnimateTransition
+        in={show}
+        classNames="slide-right-left"
+      >
+        <div className="favorite-good-wrapper"
+          style={{...style.wrapper, ..._style, display: show ? 'flex' : 'none'}}>
+          <div className="img-wrapper"
+            style={style.imgWrapper}>
+            <BackgroundImg
+              img={img}
+              style={{
+                position: 'static',
+                width: 84,
+                height: 88
+              }}
+            />
+          </div>
+          <div className="info"
+            style={style.info}>
+            <h1 className="title"
+              style={style.name}>{name}</h1>
+            <h3 className="price"
+              style={style.price}>￥{price.toFixed(2)}</h3>
+            <div className="num-control"
+              style={style.iconControl}>
+              <NumberControl
+                handleQuantity={this.handleQuantity.bind(this)}
+                quantity={quantity} />
+            </div>
           </div>
         </div>
-      </div>
+      </AnimateTransition>
     )
   }
 }

@@ -1,0 +1,37 @@
+/* fade */
+.fade-enter {
+  opacity: 0.01;
+}
+
+.fade-enter.fade-enter-active {
+  opacity: 1;
+  transition: opacity .7s ease .2s;
+}
+
+.fade-exit {
+  opacity: 1;
+}
+
+.fade-exit.fade-exit-active {
+  opacity: 0.01;
+  transition: opacity .7s ease .2s;
+}
+
+/* page-fade */
+.page-fade-enter {
+  opacity: 0;
+  transition: opacity .7s ease .2s;
+}
+
+.page-fade-enter.page-fade-enter-active {
+  opacity: 1;
+}
+
+.page-fade-exit {
+  opacity: 1;
+  transition: opacity .7s ease .2s;
+}
+
+.page-fade-exit.page-fade-exit-active {
+  opacity: 0;
+}

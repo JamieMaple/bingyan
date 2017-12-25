@@ -29,6 +29,7 @@ class SearchPage extends Component {
     const { params } = this.props.match
 
     this.state = {
+      show: false,
       favoriteGoods: [],
       keywords: params.keywords,
       start: 0,
@@ -77,6 +78,9 @@ class SearchPage extends Component {
 
   componentDidMount() {
     const {keywords, goods, page, perPage} = this.state
+
+    this.setState({show: true})
+
     superagent
       .get(goodsAPI)
       .query({keywords, page, perPage})
@@ -112,13 +116,9 @@ class SearchPage extends Component {
     }
   }
 
-  componentShouldMount(nextProps,nextState) {
-
-  }
-
   render() {
     const { history } = this.props,
-      { goods, favoriteGoods, keywords, isLoading, requestNum, perPage } = this.state,
+      { show, goods, favoriteGoods, keywords, isLoading, requestNum, perPage } = this.state,
       goodsToDOM = goods.map(good => (
         <Good
           key={good._id}
@@ -144,6 +144,7 @@ class SearchPage extends Component {
         style={style.wrapper}>
         <Header
           text={`有关${words}的搜索`}
+          show={show}
           icon={'arrow'}
           handleClick={() => {history.push('/search')}}
           style={{

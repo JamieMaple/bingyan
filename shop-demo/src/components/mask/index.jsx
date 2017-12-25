@@ -9,10 +9,11 @@ const style = {
   zIndex: '-10'
 }
 
-const Mask = ({ handleClick, ..._style }) => {
+const Mask = ({ handleClick, touchMove, ..._style }) => {
   return (
     <div
       className="mask"
+      onTouchMove={(e)=>{!touchMove && e.preventDefault()}}
       onClick={(e) => {
         handleClick()
       }}
@@ -21,11 +22,13 @@ const Mask = ({ handleClick, ..._style }) => {
 }
 
 Mask.propTypes = {
-  handleClick: PropTypes.func
+  handleClick: PropTypes.func,
+  touchMove: PropTypes.bool
 }
 
 Mask.defaultProps = {
-  handleClick: function() {}
+  handleClick: function() {},
+  touchMove: false
 }
 
 export default Mask

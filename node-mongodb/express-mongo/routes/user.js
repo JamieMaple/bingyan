@@ -1,5 +1,6 @@
 const express = require('express')
 const jwt = require('jsonwebtoken')
+const crypto = require('crypto')
 const router = express.Router()
 
 const { Users } = require('../models')
@@ -43,9 +44,9 @@ router.post('/signin', (req, res) => {
 })
 
 router.post('/signup', (req, res) => {
-  const {email, username, password1, password2} = req.body
+  const { email, username, password } = req.body
 
-  if (!email || !username || !password1 || !password2) {
+  if (!email || !username || !password) {
     res.sendStatus(400)
     
     return
@@ -54,8 +55,7 @@ router.post('/signup', (req, res) => {
     usernameReg = /^[a-zA-Z0-9_-]{5,12}$/,
     passwordReg = /^(?![0-9]+$)(?![a-zA-Z]+$)[0-9A-Za-z]{6,20}$/
 
-  let noPassNum = 0,
-    password = password1
+  let noPassNum = 0
 
   if (!emailReg.test(email)) {
     noPassNum++
@@ -65,9 +65,7 @@ router.post('/signup', (req, res) => {
     noPassNum++
   }
 
-  if (password1 !== password2) {
-    noPassNum++
-  }else if(!passwordReg.test(password)){
+  if (!passwordReg.test(password)) {
     noPassNum++
   }
 
@@ -90,8 +88,19 @@ router.post('/signup', (req, res) => {
   })
   .then((done) => {
     if (!done) {
+      encode_password = crypto
+        .createHmac('sha256', password)
+        .update('utf8')
+        .digest('base64')
 
-        let user = new Users({email, username, password, favorite: [], cart: []})
+        let user = new Users({
+          email,
+          username,
+          password: encode_password, 
+          sex: -1,
+          favorite: [], 
+          cart: []
+        })
 
         user.save((err) => {
           if (err) throw err

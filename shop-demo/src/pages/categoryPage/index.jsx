@@ -2,16 +2,18 @@ import React, { Component } from 'react'
 import superagent from 'superagent'
 import { Scrollbars } from 'react-custom-scrollbars'
 
-import { goodsAPI, categoriesAPI } from '../../api'
+import { goodsAPI, categoriesAPI, favorite, tokenName, type } from '../../api'
 
 import Icon from '../../components/Icon/index'
 import Good from '../../components/Good'
 import Loader from '../../components/Loader'
+import NoMore from '../../components/NoMore/index'
+
+import AnimateTransition from '../../components/AnimateTransition'
 
 import style from './style'
-import NoMore from '../../components/NoMore/index';
 
-const Header = ({name, description, handleBack}) => (
+const Header = ({name, description, handleBack, show}) => (
   <div className="header"
     style={style.header}>
     <Icon type={'arrow'}
@@ -24,16 +26,31 @@ const Header = ({name, description, handleBack}) => (
         zIndex: '30'
       }}
     />
-    <h1 className="title-name"
-      style={style.headerCategoryName}>{name}</h1>
-    <p style={style.headerCategoryInfo}>{description}</p>
+    <AnimateTransition
+      in={show}
+      classNames="slide-right-left-short"
+    >
+      <h1 className="title-name"
+        style={{...style.headerCategoryName, display: show ? 'block': 'none'}}>
+        {name}
+      </h1>
+    </AnimateTransition>
+    <AnimateTransition
+      in={show}
+      classNames="slide-right-left-short"
+    >
+      <p style={{...style.headerCategoryInfo, display: show ? 'block' : 'none' }}>
+        {description}
+      </p>
+    </AnimateTransition>
   </div>
 )
-const Body = ({goods, handleAjaxSend, perPage, isLoading, history}) => {
+const Body = ({goods, favoriteGoods, handleAjaxSend, perPage, isLoading, history}) => {
   const goodsToHtml = goods.map(good => (
-    <Good 
+    <Good
       key={good._id}
       id={good._id}
+      isFavorite={favoriteGoods.indexOf(good._id) > -1}
       name={good.name}
       description={good.description}
       img={good.img}
@@ -58,10 +75,12 @@ class CategoryPage extends Component {
       id: this.props.match.params.id,
       name: '',
       description: '',
+      show: false,
       page: 0,
       perPage: 20,
       requestNum: 0,
       goods: [],
+      favoriteGoods: [],
       isLoading: true
     }
     
@@ -123,6 +142,8 @@ class CategoryPage extends Component {
   componentDidMount() {
     const { id } = this.state
 
+    this.setState({show: true})
+
     this.handleAjaxSend()
 
     superagent
@@ -132,16 +153,32 @@ class CategoryPage extends Component {
         if (err) {
           throw err
         }else{
-          const {name, description} = sres.body[0]
+          const {name='分类', description='暂无介绍'} = sres.body[0]
           this.setState({name, description})
         }
       })
+
+    const token = localStorage.getItem(tokenName)
+
+    if (token) {
+      superagent
+        .post(favorite)
+        .send(`token=${token}`)
+        .send(`type=${type.ALL}`)
+        .end((err, sres) => {
+          if (err) {
+            throw err
+          }else{
+            this.setState({favoriteGoods: sres.body.favorite})
+          }
+        })
+    }
   }
 
 
   render(){
     const { history } = this.props
-    const { name, description, goods, perPage, isLoading, requestNum } = this.state
+    const { name, description, favoriteGoods, goods, show, perPage, isLoading, requestNum } = this.state
 
     let noMoreText = '没有更多了呢'
 
@@ -156,9 +193,11 @@ class CategoryPage extends Component {
         <Header
           name={name}
           description={description}
+          show={show}
           handleBack={() => {history.push('/categories')}} />
         <Body 
           goods={goods}
+          favoriteGoods={favoriteGoods}
           perPage={perPage}
           isLoading={isLoading}
           history={history}

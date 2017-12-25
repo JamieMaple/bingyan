@@ -5,42 +5,58 @@ import Mask from '../../components/Mask'
 import BackgroundImg from '../../components/BackgroundImg'
 import Icon from '../../components/Icon'
 
+import AnimateTranstion from '../../components/AnimateTransition'
+
 import style from './style'
 
 const img = require('./img.png')
-const SearchBody = (({handleKeyWords, handleSubmit}) => (
+
+const SearchBody = (({handleKeyWords, handleSubmit, show}) => (
   <div className="search-body"
     style={style.body}>
-    <h1 className="title-1"
-      style={style.title1}>
-    发现
-    </h1>
+    <AnimateTranstion
+      in={show}
+      classNames="slide-bottom-top-short"
+    >
+      <h1 className="title-1"
+        style={style.title1}>
+        发现
+      </h1>
+    </AnimateTranstion>
     <div className="search-input"
       style={style.searchInput}>
       <span style={style.iconStyle}><i className="ion-android-search"></i></span>
       <form
         onSubmit={(e) => {handleSubmit(e)}}
         style={style.form}>
-        <input 
+        <input
           type="text"
           placeholder="Find what you want"
           onChange={(e) => {handleKeyWords(e.target.value.trim())}}
           style={style.inputStyle} />
       </form>
     </div>
-    <h3 className="title-2"
-      style={style.title2}>
-      Find something interesting
-    </h3>
+    <AnimateTranstion
+      in={show}
+      classNames="slide-top-bottom-short"
+    >
+      <h3 className="title-2"
+        style={style.title2}>
+        Find something interesting
+      </h3>
+    </AnimateTranstion>
   </div>
 ))
 
 class Search extends Component {
   constructor() {
     super()
-    this.state = {keywords: []}
+    this.state = {keywords: [], show: false}
   }
 
+  componentDidMount() {
+    this.setState({show: true})
+  }
 
   handleKeyWords(keywords) {
     let wordsArr = keywords.split(' ')
@@ -59,6 +75,8 @@ class Search extends Component {
   }
 
   render() {
+    const { show } = this.state
+
     return (
       <div className="search-wrapper"
         style={style.main}>
@@ -74,23 +92,28 @@ class Search extends Component {
           </div>
           <div className="background-wrapper"
             style={Object.assign({}, style.backgroundItem, { zIndex: '-20'})}>
-            <BackgroundImg src={img} style={{height: '100%', width: '100%'}} />
+            <BackgroundImg img={img} style={{height: '100%', width: '100%'}} />
           </div>
         </div>
         <SearchBody 
+          show={show}
           handleKeyWords={this.handleKeyWords.bind(this)}
           handleSubmit={this.handleSubmit.bind(this)}
         />
         <div className="search-footer">
-          <h3 className="footer"
-            style={style.title3}>
-            <Link to="/categories">查看更多分类</Link>
-          </h3>
+          <AnimateTranstion
+            in={show}
+            classNames="fade"
+          >
+            <h3 className="footer"
+              style={style.title3}>
+              <Link to="/categories">查看更多分类</Link>
+            </h3>
+          </AnimateTranstion>
         </div>
       </div>
     )
   }
 }
-
 
 export default Search

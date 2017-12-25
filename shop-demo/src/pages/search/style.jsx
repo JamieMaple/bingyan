@@ -5,7 +5,7 @@ const color = {
 }
 
 style.main = {
-  height: '100%',
+  height: '100vh',
   color: '#fff'
 }
 style.backgroundGroup = {

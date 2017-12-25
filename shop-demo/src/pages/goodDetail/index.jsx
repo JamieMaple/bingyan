@@ -121,17 +121,18 @@ class GoodDetail extends Component {
   }
 
   handleAddToFavorite(token) {
-    const { isFavorite, id } = this.state,
-      type = isFavorite ? sendType.DELETE : sendType.ADD
+    return
+    // const { isFavorite, id } = this.state,
+    //   type = isFavorite ? sendType.DELETE : sendType.ADD
 
-    superagent
-      .post(favorite)
-      .send(`token=${token}`)
-      .send(`type=${type}`)
-      .send(`goodid=${id}`)
-      .end((err, sres) => {
-        this.setState({isFavorite: !isFavorite})
-      })
+    // superagent
+    //   .post(favorite)
+    //   .send(`token=${token}`)
+    //   .send(`type=${type}`)
+    //   .send(`goodid=${id}`)
+    //   .end((err, sres) => {
+    //     this.setState({isFavorite: !isFavorite})
+    //   })
   }
 
   handleClickBuy() {
@@ -157,7 +158,6 @@ class GoodDetail extends Component {
 
   render() {
     const { history } = this.props,
-      {previousPath = '/search'} = this.props.location.state,
       { name, description, img, price, quantity, isFavorite } = this.state,
       options = [1,2,3,4,5,6,7,8,9,10].map((value, index) => (
         <option
@@ -170,7 +170,7 @@ class GoodDetail extends Component {
       <div className="detail-wrapper"
         style={style.wrapper}>
         <Mask
-          handleClick={() => {history.push(previousPath)}}
+          handleClick={() => {history.goBack()}}
           position={'fixed'}
           zIndex={'20'}
           overflow={'hidden'}
@@ -179,13 +179,14 @@ class GoodDetail extends Component {
           name={name}
           isFavorite={isFavorite}
           addToFavorite={this.handleClickEntry.bind(this)}
-          goBack={() => {history.push(previousPath)}} />
+          goBack={() => {history.goBack()}} />
         <Scrollbars style={style.body}>
           <div className="img-group"
             style={style.imgGroup}>
-            <Mask 
+            <Mask
+              touchMove={true}
               position={'absolute'} 
-              left={'0'} 
+              left={'0'}
               top={'0'}
               zIndex={'10'}
             />

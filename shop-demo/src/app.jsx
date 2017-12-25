@@ -6,6 +6,14 @@ import MainPage from './pages/mainPage'
 import SignIn from './pages/signin'
 import SignUp from './pages/signup'
 
+const style = {}
+style.routeWrapper = {
+  position: 'absolute',
+  top: 0,
+  right: 0,
+  left: 0
+}
+
 const App = () => (
   <Switch>
     <Route exact path='/' component={IndexPage} />

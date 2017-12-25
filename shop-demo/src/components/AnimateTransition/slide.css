@@ -1,0 +1,98 @@
+/*
+** slide
+*/
+
+/* 1 */
+/* bottom top */
+.slide-bottom-top-short-enter {
+  transform: translate3d(0, 60px, 0);
+  opacity: 0.01;
+}
+
+.slide-bottom-top-short-enter.slide-bottom-top-short-enter-active {
+  transform: translate3d(0, 0, 0);
+  opacity: 1;
+  transition: all .7s ease;
+}
+
+.slide-bottom-top-short-leave {
+  transform: translate3d(0, 0, 0);
+  opacity: 1;
+}
+
+.slide-bottom-top-short-leave.slide-bottom-top-short-leave-active {
+  transform: translate3d(0, 60px, 0);
+  opacity: 0.01;
+  transition: all .7s ease;
+}
+
+/* 2 */
+/* top bottom */
+.slide-top-bottom-short-enter {
+  transform: translate3d(0, -60px, 0);
+  opacity: 0.01;
+}
+
+.slide-top-bottom-short-enter.slide-top-bottom-short-enter-active {
+  transform: translate3d(0, 0, 0);
+  opacity: 1;
+  transition: all .7s ease;
+}
+
+.slide-top-bottom-short-leave {
+  transform: translate3d(0, 0, 0);
+  opacity: 1;
+}
+
+.slide-top-bottom-short-leave.slide-top-bottom-short-leave-active {
+  transform: translate3d(0, -60px, 0);
+  opacity: 0.01;
+  transition: all .7s ease;
+}
+
+/* 3 */
+/* right left */
+.slide-right-left-enter {
+  transform: translate3d(100%, 0, 0);
+  opacity: 0.01;
+}
+
+.slide-right-left-enter.slide-right-left-enter-active {
+  transform: translate3d(0, 0, 0);
+  opacity: 1;
+  transition: all .2s ease;
+}
+
+.slide-right-left-leave {
+  transform: translate3d(0, 0, 0);
+  opacity: 1;
+}
+
+.slide-right-left-leave.slide-right-left-leave-active {
+  transform: translate3d(100%, 0, 0);
+  opacity: 0.01;
+  transition: all .2s ease;
+}
+
+/* right-left short */
+.slide-right-left-short-enter {
+  transform: translate3d(30px, 0, 0);
+  opacity: 0.01;
+}
+
+.slide-right-left-short-enter.slide-right-left-short-enter-active {
+  transform: translate3d(0, 0, 0);
+  opacity: 1;
+  transition: all .5s ease;
+}
+
+.slide-right-left-short-leave {
+  transform: translate3d(0, 0, 0);
+  opacity: 1;
+}
+
+.slide-right-left-short-leave.slide-right-left-short-leave-active {
+  transform: translate3d(30px, 0, 0);
+  opacity: 0.01;
+  transition: all .5s ease;
+}

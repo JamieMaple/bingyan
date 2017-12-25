@@ -1,25 +1,38 @@
-const mainURL = 'http://10.146.100.135'
-const port = '3001'
+let mainURL
+const url = ''
+const port = null
 
-export const tokenVerify = `${mainURL}:${port}/auth`
+if (port) {
+  mainURL = `${url}:${port}`
+} else {
+  mainURL = url
+}
+
+export const tokenVerify = `${mainURL}/auth`
 
 export const type = {
   ADD: 1,
   DELETE: 2,
   ALL: 3,
+  GET_INFO: 3,
   ADD_TO_CART : 4,
   BUY: 5,
-  other: 10
+  OTHER: 10
 }
 
-export const favorite = `${mainURL}:${port}/auth/favorite`
-export const cart = `${mainURL}:${port}/auth/cart`
-export const userInfo = `${mainURL}:${port}/auth/info`
+export const favorite = `${mainURL}/auth/favorite`
+export const cart = `${mainURL}/auth/cart`
+export const userInfo = `${mainURL}/auth/info`
+// todo changeInfo
+export const changeInfo = `${mainURL}/auth/changeInfo`
 
-export const signIn = `${mainURL}:${port}/signin`
-export const signUp = `${mainURL}:${port}/signup`
+export const signIn = `${mainURL}/user/signin`
+export const signUp = `${mainURL}/user/signup`
+// todo forget password
+export const forgetPassword = `${mainURL}/user/forget`
 
-export const categoriesAPI = `${mainURL}:${port}/api/categories`
-export const goodsAPI = `${mainURL}:${port}/api/goods`
+export const categoriesAPI = `${mainURL}/api/categories`
+export const goodsAPI = `${mainURL}/api/goods`
+
 
 export const tokenName = 'uid_token'

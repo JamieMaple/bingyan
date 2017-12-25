@@ -34,7 +34,7 @@ const Title = ({ color }) => (
   <hgroup className="title-group"
     style={Object.assign({}, style.titleGroup, {color})}>
     <h1 style={style.title}>LITTLE</h1>
-    <h1 style={style.title}>T H</h1>
+    <h1 style={style.title}>T & H</h1>
     <h1 style={Object.assign({}, style.title, { marginBottom: '0' })}>SHOP</h1>
   </hgroup>
 )

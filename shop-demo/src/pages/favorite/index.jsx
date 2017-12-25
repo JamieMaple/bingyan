@@ -1,6 +1,5 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
-import { Scrollbars } from 'react-custom-scrollbars'
 import superagent from 'superagent'
 
 import { tokenName, favorite, type } from '../../api'
@@ -16,14 +15,15 @@ style.body = {
   position: 'absolute',
   top: '55px',
   left: '0',
-  bottom: '0',
-  right: '0'
+  right: '0',
+  overflow: 'hidden'
 }
 
 class Favorite extends Component {
   constructor(props) {
     super(props)
     this.state = {
+      show: false,
       favorite: [],
       isLoading: true,
       isSignIn: false,
@@ -33,6 +33,7 @@ class Favorite extends Component {
 
   componentDidMount() {
     const token = localStorage.getItem(tokenName)
+    this.setState({show: true})
 
     if (token) {
       superagent
@@ -40,7 +41,16 @@ class Favorite extends Component {
         .send(`token=${token}`)
         .end((err, sres) => {
           if (sres && sres.status === 200) {
-            const { favorite } = sres.body
+            const favorite = sres.body.favorite.map(item => ({...item, show: false}))
+
+            favorite.forEach((item1, index1) => {
+              setTimeout(() => {
+                this.setState({favorite: this.state.favorite.map(
+                  (item2, index2) => (index1 >= index2 ? {...item2, show: true} : item2)
+                )})
+              }, 100 * index1)
+            })
+
             this.setState({
               isLoading: false,
               isSignin: true,
@@ -56,6 +66,8 @@ class Favorite extends Component {
     }else{
       this.props.history.push('/')
     }
+
+
   }
 
   removeFavorite(id) {
@@ -78,7 +90,6 @@ class Favorite extends Component {
             const favorite = this.state.favorite.filter(favoriteGood => {
               return favoriteGood._id !== id
             })
-            console.log(favorite)
             this.setState({
               favorite
             })
@@ -92,10 +103,11 @@ class Favorite extends Component {
   }
 
   render() {
-    const { isLoading, favorite } = this.state,
+    const { show, isLoading, favorite } = this.state,
       goods = favorite.map((good, index) => (
         <FavoriteGood
           key={good._id}
+          show={good.show}
           id={good._id}
           index={index}
           name={good.name}
@@ -110,24 +122,23 @@ class Favorite extends Component {
       <div  className="favorite-wrapper">
         <Header
           text={'收藏夹'}
+          show={show}
           style={{
             boxShadow: '0px 1px 5px #919191'
           }} />
         <div className="favorite-body"
           style={style.body}>
-          <Scrollbars>
-            {goods}
-            {isLoading ? <Loader /> : null}
-            {!isLoading && favorite.length === 0
-              ? <NoMore
-                text={'收藏夹空空如也'}
-                WrapperStyle=
-                  {{
-                    marginLeft: 'auto',
-                    marginRight: 'auto'
-                  }} />
-              : null}
-          </Scrollbars>
+          {goods}
+          {isLoading ? <Loader /> : null}
+          {!isLoading && favorite.length === 0
+            ? <NoMore
+              text={'收藏夹空空如也'}
+              WrapperStyle=
+                {{
+                  marginLeft: 'auto',
+                  marginRight: 'auto'
+                }} />
+            : null}
         </div>
       </div>
     )

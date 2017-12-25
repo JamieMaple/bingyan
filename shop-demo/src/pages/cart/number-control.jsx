@@ -11,7 +11,7 @@ style.number = {
   display: 'inline-block',
   lineHeight: '32px',
   height: '32px',
-  padding: '0 5px',
+  padding: '0 10px',
   fontSize: '16px',
   color: '#8C8C8C',
   verticalAlign: 'bottom'
@@ -19,7 +19,7 @@ style.number = {
 style.button={
   display: 'inline-block',
   boxSizing: 'border-box',
-  padding: '5px'
+  padding: '5px 0'
 }
 
 class NumberControl extends Component {

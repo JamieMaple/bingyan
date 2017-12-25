@@ -4,6 +4,9 @@ import { Link } from 'react-router-dom'
 
 import Icon from '../../components/Icon'
 
+import AnimateTransition from '../../components/AnimateTransition'
+import BackgroundImg from '../../components/BackgroundImg/index'
+
 const defaultImg = require('./img.png')
 
 const style = {}
@@ -59,43 +62,52 @@ style.iconControl = {
 
 class FavoriteGood extends Component {
   render() {
-    const { img, name, desc,price, index, id, location, removeFavorite } = this.props
-    const _style = (index !== 0 ? { borderTop: '1px solid #C7C7C7' } : {})
+    const { img, name, desc,price, index, id, location, removeFavorite, show } = this.props,
+      _style = (index !== 0 ? { borderTop: '1px solid #C7C7C7' } : {})
 
     return (
-      <div className="favorite-good-wrapper"
-        style={Object.assign({}, style.wrapper, _style)}>
-        <div className="img-wrapper"
-          style={style.imgWrapper}>
-          <Link 
-            to={{
-              pathname: `/good/${id}`,
-              state: {previousPath: location.pathname}
-            }}
-            style={{display: 'inline-block'}} >
-            <img
-              src={img}
-              alt="food" width="84" height="88"
-            />
-          </Link>
-        </div>
-        <div className="info"
-          style={style.info}>
-          <h1 className="title"
-            style={style.name}>{name}</h1>
-          <p className="desc"
-            style={style.desc}>{desc}</p>
-          <h3 className="price"
-            style={style.price}>￥{price}</h3>
-          <div className="icon-control"
-            style={style.iconControl}>
-            <Icon
-              type={'fullheart'}
-              handleClick={removeFavorite}
-              style={{color: '#EA4F4F'}} />
+      <AnimateTransition
+        in={show}
+        classNames="slide-right-left"
+      >
+        <div className="favorite-good-wrapper"
+          style={{...style.wrapper, ..._style,  display: show ? 'flex' : 'none'}}>
+          <div className="img-wrapper"
+            style={style.imgWrapper}>
+            <Link
+              to={{
+                pathname: `/good/${id}`,
+                state: {previousPath: location.pathname}
+              }}
+              style={{display: 'inline-block'}} >
+              <BackgroundImg 
+                img={img}
+                style={{
+                  position: 'static',
+                  height: 84,
+                  width: '88'
+                }}
+              />
+            </Link>
+          </div>
+          <div className="info"
+            style={style.info}>
+            <h1 className="title"
+              style={style.name}>{name}</h1>
+            <p className="desc"
+              style={style.desc}>{desc}</p>
+            <h3 className="price"
+              style={style.price}>￥{price}</h3>
+            <div className="icon-control"
+              style={style.iconControl}>
+              <Icon
+                type={'fullheart'}
+                handleClick={removeFavorite}
+                style={{color: '#EA4F4F'}} />
+            </div>
           </div>
         </div>
-      </div>
+      </AnimateTransition>
     )
   }
 }
@@ -103,7 +115,8 @@ FavoriteGood.defaultProps = {
   src: defaultImg,
   name: 'unknow food',
   desc: 'description',
-  price: 100.00
+  price: 100.00,
+  show: false
 }
 FavoriteGood.PropTypes = {
   name: PropTypes.string,
