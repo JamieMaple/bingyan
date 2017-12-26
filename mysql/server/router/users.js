@@ -26,7 +26,7 @@ router.post('/signin', async (ctx) => {
 
   if (comparePassword(password, user.password)) {
     const token = generateToken(user.id)
-    ctx.body = JSON.stringify({token: token})
+    ctx.body = {token: token}
   } else {
     ctx.status = 400
   }
@@ -68,7 +68,7 @@ router.post('/signup', async (ctx) => {
   if (!user) {
     const user = await query(insertUser(username, email, password))
     const token = generateToken(user.id)
-    ctx.body = JSON.stringify({token: token})
+    ctx.body = {token: token}
   } else {
     ctx.status = 400
     return

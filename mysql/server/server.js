@@ -1,5 +1,6 @@
 const Koa = require('koa')
 const Router = require('koa-router')
+const cors = require('@koa/cors')
 
 const app = new Koa
 const router = new Router
@@ -10,7 +11,7 @@ const routers = require('./router')
 
 router
   .all('/', async (ctx, next) => {
-    ctx.body = {data: "test"}
+    ctx.body = 'hello'
   })
 
 router.use('/api', routers.publicRouter.routes())
@@ -19,6 +20,7 @@ router.use('/user', routers.userRouter.routes())
 
 router.use('/auth', routers.userActionRouter.routes())
 
+app.use(cors())
 app.use(router.routes())
 
 app.listen(PORT, () => {

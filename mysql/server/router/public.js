@@ -13,13 +13,13 @@ router.get('/goods', async (ctx) => {
   } else {
     data = await query(searchGoods(keywords.split('+'), page * perPage, perPage))
   }
-  ctx.body = JSON.stringify(data)
+  ctx.body = data
 })
 
 router.get('/categories', async (ctx) => {
   const { category } = ctx.request.query
   const data = await query(searchCategories(category))
-  ctx.body = JSON.stringify(data)
+  ctx.body = data
 })
 
 module.exports = router

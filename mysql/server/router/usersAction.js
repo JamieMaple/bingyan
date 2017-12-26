@@ -5,13 +5,15 @@ const BodyParser = require('koa-bodyparser')
 const { 
   query,
   secret,
+  searchGood,
   findUserById,
   findFavorite,
   findCart,
   insertFavorite,
   insertCart,
   deleteFavorite,
-  deleteCart
+  deleteCart,
+  customSearch,
 } = require('../db')
 
 const ADD = 1,
@@ -19,6 +21,14 @@ const ADD = 1,
   ALL = 3,
   ADD_TO_CART = 4,
   BUY = 5
+
+function idsToStringWhere(idArr) {
+  if (Array.isArray(idArr)) {
+    const ids = idArr.map(id => `id=${id}`)
+    return ids.join(' or ')
+  }
+  return idArr
+}
 
 
 router.use(BodyParser())
@@ -48,7 +58,7 @@ router.post('/info', async (ctx) => {
 
   const [user] = await query(findUserById(uid))
 
-  ctx.body = JSON.stringify({username: user.username, email: user.email, sex: user.sex})
+  ctx.body = {username: user.username, email: user.email, sex: user.sex}
 })
 
 router.post('/favorite', async (ctx) => {
@@ -78,19 +88,22 @@ router.post('/favorite', async (ctx) => {
 
       if (!readyHave) {
         const add = await query(insertFavorite(uid, goodid))
-        ctx.body = JSON.stringify(add)
+        ctx.body = add
       } else {
         ctx.status = 200
       }
       break
     case DELETE:
       const del = await query(deleteFavorite(uid, goodid))
-      ctx.body = JSON.stringify(del)
+      ctx.body = del
       break
     case ALL:
     default:
-      const data = await query(findFavorite(uid))
-      ctx.body = JSON.stringify({favorite: data})
+    const data = await query(findFavorite(uid))
+    const ids = data.map(good => good.goodid)
+    const goods = await query(customSearch(idsToStringWhere(ids)))
+
+    ctx.body = { favorite: goods }
   }
 })
 
@@ -132,7 +145,10 @@ router.post('/cart', async (ctx) => {
       break
     default:
       const data = await query(findCart(uid))
-      ctx.body = JSON.stringify({ cart: data })
+      const ids = data.map(good => good.goodid)
+      const goods = await query(customSearch(idsToStringWhere(ids)))
+
+      ctx.body = { cart: goods }
       break;
   }
 })

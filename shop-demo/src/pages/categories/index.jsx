@@ -61,7 +61,7 @@ class Categories extends Component {
     const { show } = this.state,
       categories = this.state.categories.map((category, index) => (
         <Category
-          key={category._id}
+          key={category.id}
           show={category.show}
           id={category.id}
           title={category.name}

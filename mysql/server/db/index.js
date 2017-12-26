@@ -7,4 +7,5 @@ module.exports = {
   query: query,
   ...goods,
   ...users,
+  ...categories,
 }

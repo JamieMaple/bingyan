@@ -1,6 +1,6 @@
 let mainURL
-const url = ''
-const port = null
+const url = 'http://localhost'
+const port = 8080
 
 if (port) {
   mainURL = `${url}:${port}`

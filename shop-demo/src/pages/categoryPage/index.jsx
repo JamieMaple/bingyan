@@ -48,8 +48,8 @@ const Header = ({name, description, handleBack, show}) => (
 const Body = ({goods, favoriteGoods, handleAjaxSend, perPage, isLoading, history}) => {
   const goodsToHtml = goods.map(good => (
     <Good
-      key={good._id}
-      id={good._id}
+      key={good._id || good.id}
+      id={good._id || good.id}
       isFavorite={favoriteGoods.indexOf(good._id) > -1}
       name={good.name}
       description={good.description}

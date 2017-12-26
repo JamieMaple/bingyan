@@ -42,8 +42,15 @@ function _searchCategory(category, offset = 0, limit = initLimit) {
   return '' + sql.where(`category=${category}`).limit(offset, limit)
 }
 
+function _customSearch(where) {
+  const sql = new Select(tableNames.goods)
+
+  return '' + sql.where(where)
+}
+
 module.exports = {
   searchGoods: _searchGoods,
   searchGood: _searchGood,
   searchCategory: _searchCategory,
+  customSearch: _customSearch,
 }
