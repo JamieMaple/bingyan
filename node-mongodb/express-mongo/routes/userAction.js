@@ -13,7 +13,7 @@ const ADD = 1,
   BUY = 5
 
 router.use(function(req, res, next) {
-  var token = req.body.token || req.query.token || req.headers["x-access-token"]
+  const token = req.body.token || req.query.token || req.headers["x-access-token"]
   jwt.verify(token, secret, function(err, decode) {
     if (err) {
       res.sendStatus(400)
