@@ -1,5 +1,5 @@
 const tableNames = require('./tableNames')
-const { Select, Insert } = require('./SQL')
+const { Select, Insert, Delete } = require('./SQL')
 const pool = require('./connection')
 const crypto = require('crypto')
 
@@ -53,11 +53,30 @@ function _insertFavorite(userid, goodid) {
   return '' + sql
 }
 
+const _deleteItem = table => (userid, goodid) => {
+  const whereCondition = `userid=${userid} and goodid=${goodid}`
+  const sql = new Delete(table, whereCondition)
+
+  return '' + sql
+}
+
+const _findItems = table => userid => {
+  const sql = new Select(table)
+
+  return '' + sql.where(`userid=${userid}`)
+}
+
 module.exports = {
   secret: secretOrPrivateKey,
   time: TOKEN_TIME,
   findUsers: _findUsers,
   findUserById: _findUserById,
+  findFavorite: _findItems(tableNames.favorite),
+  findCart: _findItems(tableNames.cart),
   insertUser: _insertUser,
+  insertCart: _insertCart,
+  insertFavorite: _insertFavorite,
+  deleteCart: _deleteItem(tableNames.cart),
+  deleteFavorite: _deleteItem(tableNames.favorite),
   comparePassword: _comparePassword,
 }

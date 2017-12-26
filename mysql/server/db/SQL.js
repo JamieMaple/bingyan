@@ -88,4 +88,5 @@ Object.defineProperties(Delete.prototype, {
 module.exports = {
   Select: Select,
   Insert: Insert,
+  Delete: Delete,
 }
